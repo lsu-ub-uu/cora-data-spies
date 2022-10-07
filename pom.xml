@@ -6,11 +6,11 @@
 		<version>2.0.0</version>
 	</parent>
 
-	<artifactId>data-spies</artifactId>
+	<artifactId>coradata-spies</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Data-spies</name>
+	<name>Coradata-spies</name>
 
 	<properties>
 		<coradata.version>7.2-SNAPSHOT</coradata.version>
@@ -20,9 +20,9 @@
 	</properties>
 
 	<scm>
-		<connection>scm:git:https://github.com/lsu-ub-uu/cora-testspies.git</connection>
-		<developerConnection>scm:git:https://github.com/lsu-ub-uu/cora-testspies.git</developerConnection>
-		<url>https://github.com/lsu-ub-uu/cora-testspies.git</url>
+		<connection>scm:git:https://github.com/lsu-ub-uu/cora-data-spies.git</connection>
+		<developerConnection>scm:git:https://github.com/lsu-ub-uu/cora-data-spies.git</developerConnection>
+		<url>https://github.com/lsu-ub-uu/cora-data-spies.git</url>
 		<tag>HEAD</tag>
 	</scm>
 
