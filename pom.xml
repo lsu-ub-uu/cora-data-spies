@@ -13,10 +13,10 @@
 	<name>Coradata-spies</name>
 
 	<properties>
-		<coradata.version>7.2-SNAPSHOT</coradata.version>
-		<json.version>3.3.0</json.version>
-		<testutils.version>1.5.0</testutils.version>
-		<testutils-spies.version>1.0-SNAPSHOT</testutils-spies.version>
+		<coradata.version>7.2.0</coradata.version>
+		<json.version>3.4.0</json.version>
+		<testutils.version>1.6.0</testutils.version>
+		<testutils-spies.version>1.0.0</testutils-spies.version>
 	</properties>
 
 	<scm>
