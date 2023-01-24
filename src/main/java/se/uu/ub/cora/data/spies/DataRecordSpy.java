@@ -41,7 +41,6 @@ public class DataRecordSpy implements DataRecord {
 		MRV.setDefaultReturnValuesSupplier("getId", String::new);
 		MRV.setDefaultReturnValuesSupplier("getDataGroup", DataGroupSpy::new);
 		MRV.setDefaultReturnValuesSupplier("hasActions", (Supplier<Boolean>) () -> false);
-		MRV.setDefaultReturnValuesSupplier("hasActions", (Supplier<Boolean>) () -> false);
 		MRV.setDefaultReturnValuesSupplier("getActions", Collections::emptyList);
 		MRV.setDefaultReturnValuesSupplier("hasReadPermissions", (Supplier<Boolean>) () -> false);
 		MRV.setDefaultReturnValuesSupplier("getReadPermissions", Collections::emptySet);
