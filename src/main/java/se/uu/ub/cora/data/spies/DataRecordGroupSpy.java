@@ -76,6 +76,7 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("getType", String::new);
 		MRV.setDefaultReturnValuesSupplier("getId", String::new);
 		MRV.setDefaultReturnValuesSupplier("getDataDivider", String::new);
+		MRV.setDefaultReturnValuesSupplier("getValidationType", String::new);
 	}
 
 	@Override
@@ -248,6 +249,17 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	@Override
 	public void setDataDivider(String dataDivider) {
 		MCR.addCall("dataDivider", dataDivider);
+	}
+
+	@Override
+	public String getValidationType() {
+		return (String) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public void setValidationType(String validationType) {
+		MCR.addCall("validationType", validationType);
+
 	}
 
 }
