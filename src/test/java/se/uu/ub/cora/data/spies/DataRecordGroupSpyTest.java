@@ -676,7 +676,41 @@ public class DataRecordGroupSpyTest {
 						"attributes");
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "attributes", returnValue);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
 
+	@Test
+	public void testName() throws Exception {
+		DataRecordGroupSpy dataRecordGroup = new DataRecordGroupSpy();
+		DataRecordLinkSpy textLink = new DataRecordLinkSpy();
+
+		dataRecordGroup.MRV.setSpecificReturnValuesSupplier(
+				"getFirstChildOfTypeWithNameAndAttributes", () -> textLink, DataRecordLink.class,
+				"textId", new DataAttribute[0]);
+
+		DataRecordLink returnedValue = dataRecordGroup
+				.getFirstChildOfTypeWithNameAndAttributes(DataRecordLink.class, "textId");
+
+		assertSame(returnedValue, textLink);
+	}
+
+	@Test
+	public void testName2() throws Exception {
+		DataRecordGroupSpy dataRecordGroup = new DataRecordGroupSpy();
+
+		DataRecordLinkSpy textLink = new DataRecordLinkSpy();
+
+		DataAttributeSpy dataAttributeSpy = new DataAttributeSpy();
+		dataAttributeSpy.MRV.setDefaultReturnValuesSupplier("getNameInData",
+				() -> "someNameInData");
+		dataAttributeSpy.MRV.setDefaultReturnValuesSupplier("getValue", () -> "someValue");
+		dataRecordGroup.MRV.setSpecificReturnValuesSupplier(
+				"getFirstChildOfTypeWithNameAndAttributes", () -> textLink, DataRecordLink.class,
+				"textId", dataAttributeSpy);
+
+		DataRecordLink returnedValue = dataRecordGroup.getFirstChildOfTypeWithNameAndAttributes(
+				DataRecordLink.class, "textId", dataAttributeSpy);
+
+		assertSame(returnedValue, textLink);
 	}
 
 	@Test
