@@ -77,6 +77,15 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("getId", String::new);
 		MRV.setDefaultReturnValuesSupplier("getDataDivider", String::new);
 		MRV.setDefaultReturnValuesSupplier("getValidationType", String::new);
+
+		MRV.setDefaultReturnValuesSupplier("containsChildOfTypeWithNameAndAttributes", () -> false);
+		MRV.setDefaultReturnValuesSupplier("getFirstChildOfTypeWithNameAndAttributes",
+				DataChildSpy::new);
+		MRV.setDefaultReturnValuesSupplier("getChildrenOfTypeWithNameAndAttributes",
+				ArrayList<DataChildSpy>::new);
+		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithTypeNameAndAttributes",
+				() -> false);
+		MRV.setDefaultReturnValuesSupplier("removeChildrenWithTypeNameAndAttributes", () -> false);
 	}
 
 	@Override
@@ -262,4 +271,39 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 
 	}
 
+	@Override
+	public <T> boolean containsChildOfTypeWithNameAndAttributes(Class<T> type, String name,
+			DataAttribute... attributes) {
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name, "attributes",
+				attributes);
+	}
+
+	@Override
+	public <T extends DataChild> T getFirstChildOfTypeWithNameAndAttributes(Class<T> type,
+			String name, DataAttribute... attributes) {
+
+		return (T) MCR.addCallAndReturnFromMRV("type", type, "name", name, "attributes",
+				attributes);
+	}
+
+	@Override
+	public <T extends DataChild> List<T> getChildrenOfTypeWithNameAndAttributes(Class<T> type,
+			String name, DataAttribute... attributes) {
+		return (List<T>) MCR.addCallAndReturnFromMRV("type", type, "name", name, "attributes",
+				attributes);
+	}
+
+	@Override
+	public <T> boolean removeFirstChildWithTypeNameAndAttributes(Class<T> type, String name,
+			DataAttribute... attributes) {
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name, "attributes",
+				attributes);
+	}
+
+	@Override
+	public <T> boolean removeChildrenWithTypeNameAndAttributes(Class<T> type, String name,
+			DataAttribute... attributes) {
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name, "attributes",
+				attributes);
+	}
 }

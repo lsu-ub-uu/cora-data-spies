@@ -35,6 +35,7 @@ import se.uu.ub.cora.data.DataAttribute;
 import se.uu.ub.cora.data.DataChild;
 import se.uu.ub.cora.data.DataChildFilter;
 import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataRecordLink;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 import se.uu.ub.cora.testutils.spies.MCRSpy;
@@ -633,5 +634,154 @@ public class DataRecordGroupSpyTest {
 		dataRecordGroup.setValidationType(validationType);
 
 		mcrForSpy.assertParameter(ADD_CALL, 0, "validationType", validationType);
+	}
+
+	@Test
+	public void testDefaultContainsChildWithName() throws Exception {
+		Class<DataChild> type = DataChild.class;
+		String name = "someNameInData";
+		assertFalse(dataRecordGroup.containsChildOfTypeWithNameAndAttributes(type, name));
+	}
+
+	@Test
+	public void testDefaultGetFirstChildOfTypeWithNameAndAttributes() throws Exception {
+		Class<DataChild> type = DataChild.class;
+		String name = "name";
+		DataAttributeSpy dataAttribute = new DataAttributeSpy();
+
+		DataChild returnedValue = dataRecordGroup.getFirstChildOfTypeWithNameAndAttributes(type,
+				name, dataAttribute);
+
+		assertTrue(returnedValue instanceof DataChild);
+	}
+
+	@Test
+	public void testGetFirstChildOfTypeWithNameAndAttributes() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
+				DataRecordLinkSpy::new);
+
+		Class<DataRecordLinkSpy> type = DataRecordLinkSpy.class;
+		String name = "name";
+		DataAttributeSpy[] dataAttribute = new DataAttributeSpy[1];
+
+		DataRecordLink returnedValue = dataRecordGroup
+				.getFirstChildOfTypeWithNameAndAttributes(type, name, dataAttribute);
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "type", type);
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "name", name);
+		Object[] returnValue = (Object[]) mcrForSpy
+				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
+						"attributes");
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "attributes", returnValue);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+
+	}
+
+	@Test
+	public void testDefaultGetChildrenOfTypeWithNameAndAttributes() throws Exception {
+		Class<DataChild> type = DataChild.class;
+		String name = "name";
+		DataAttributeSpy dataAttribute = new DataAttributeSpy();
+
+		List<DataChild> returnedValue = dataRecordGroup.getChildrenOfTypeWithNameAndAttributes(type,
+				name, dataAttribute);
+
+		assertTrue(returnedValue instanceof List<DataChild>);
+	}
+
+	@Test
+	public void testGetChildrenOfTypeWithNameAndAttributes() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+		List<DataRecordLinkSpy> listOfLinks = List.of(new DataRecordLinkSpy());
+
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> listOfLinks);
+
+		Class<DataRecordLinkSpy> type = DataRecordLinkSpy.class;
+		String name = "name";
+		DataAttributeSpy[] dataAttribute = new DataAttributeSpy[1];
+
+		List<DataRecordLinkSpy> returnedValue = dataRecordGroup
+				.getChildrenOfTypeWithNameAndAttributes(type, name, dataAttribute);
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "type", type);
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "name", name);
+		Object[] returnValue = (Object[]) mcrForSpy
+				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
+						"attributes");
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "attributes", returnValue);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
+
+	@Test
+	public void testDefaultRemoveFirstChildWithTypeNameAndAttributes() throws Exception {
+		Class<DataChild> type = DataChild.class;
+		String name = "name";
+		DataAttributeSpy dataAttribute = new DataAttributeSpy();
+
+		boolean returnedValue = dataRecordGroup.removeFirstChildWithTypeNameAndAttributes(type,
+				name, dataAttribute);
+
+		assertFalse(returnedValue);
+	}
+
+	@Test
+	public void testRemoveFirstChildWithTypeNameAndAttributes() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> true);
+
+		Class<DataRecordLinkSpy> type = DataRecordLinkSpy.class;
+		String name = "name";
+		DataAttributeSpy[] dataAttribute = new DataAttributeSpy[1];
+
+		boolean returnedValue = dataRecordGroup.removeFirstChildWithTypeNameAndAttributes(type,
+				name, dataAttribute);
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "type", type);
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "name", name);
+		Object[] returnValue = (Object[]) mcrForSpy
+				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
+						"attributes");
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "attributes", returnValue);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
+
+	@Test
+	public void testDefaultRemoveChildrenWithTypeNameAndAttributes() throws Exception {
+		Class<DataChild> type = DataChild.class;
+		String name = "name";
+		DataAttributeSpy dataAttribute = new DataAttributeSpy();
+
+		boolean returnedValue = dataRecordGroup.removeChildrenWithTypeNameAndAttributes(type, name,
+				dataAttribute);
+
+		assertFalse(returnedValue);
+	}
+
+	@Test
+	public void testRemoveFirstChildrenWithTypeNameAndAttributes() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> true);
+
+		Class<DataRecordLinkSpy> type = DataRecordLinkSpy.class;
+		String name = "name";
+		DataAttributeSpy[] dataAttribute = new DataAttributeSpy[1];
+
+		boolean returnedValue = dataRecordGroup.removeChildrenWithTypeNameAndAttributes(type, name,
+				dataAttribute);
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "type", type);
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "name", name);
+		Object[] returnValue = (Object[]) mcrForSpy
+				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
+						"attributes");
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "attributes", returnValue);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
 	}
 }
