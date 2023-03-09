@@ -555,9 +555,8 @@ public class DataGroupSpyTest {
 	public void testDefaultContainsChildWithName() throws Exception {
 		Class<DataChild> type = DataChild.class;
 		String name = "name";
-		DataAttributeSpy dataAttribute = new DataAttributeSpy();
 
-		boolean contains = dataGroup.containsChildOfTypeWithNameAndAttributes(type, name, dataAttribute);
+		boolean contains = dataGroup.containsChildOfTypeAndName(type, name);
 
 		assertFalse(contains);
 	}
@@ -568,28 +567,21 @@ public class DataGroupSpyTest {
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> true);
 		Class<DataChild> type = DataChild.class;
 		String name = "name";
-		DataAttributeSpy[] dataAttribute = new DataAttributeSpy[1];
 
-		boolean returnedValue = dataGroup.containsChildOfTypeWithNameAndAttributes(type, name, dataAttribute);
+		boolean returnedValue = dataGroup.containsChildOfTypeAndName(type, name);
 
 		assertTrue(returnedValue);
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "type", type);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "name", name);
-		Object[] returnValue = (Object[]) mcrForSpy
-				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
-						"attributes");
-		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "attributes", returnValue);
 	}
 
 	@Test
 	public void testDefaultGetFirstChildOfTypeWithNameAndAttributes() throws Exception {
 		Class<DataChild> type = DataChild.class;
 		String name = "name";
-		DataAttributeSpy dataAttribute = new DataAttributeSpy();
 
-		DataChild returnedValue = dataGroup.getFirstChildOfTypeWithNameAndAttributes(type, name,
-				dataAttribute);
+		DataChild returnedValue = dataGroup.getFirstChildOfTypeAndName(type, name);
 
 		assertTrue(returnedValue instanceof DataChild);
 	}
@@ -602,18 +594,12 @@ public class DataGroupSpyTest {
 
 		Class<DataRecordLinkSpy> type = DataRecordLinkSpy.class;
 		String name = "name";
-		DataAttributeSpy[] dataAttribute = new DataAttributeSpy[1];
 
-		DataRecordLink returnedValue = dataGroup.getFirstChildOfTypeWithNameAndAttributes(type,
-				name, dataAttribute);
+		DataRecordLink returnedValue = dataGroup.getFirstChildOfTypeAndName(type, name);
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "type", type);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "name", name);
-		Object[] returnValue = (Object[]) mcrForSpy
-				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
-						"attributes");
-		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "attributes", returnValue);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
 
 	}
@@ -622,10 +608,8 @@ public class DataGroupSpyTest {
 	public void testDefaultGetChildrenOfTypeWithNameAndAttributes() throws Exception {
 		Class<DataChild> type = DataChild.class;
 		String name = "name";
-		DataAttributeSpy dataAttribute = new DataAttributeSpy();
 
-		List<DataChild> returnedValue = dataGroup.getChildrenOfTypeWithNameAndAttributes(type, name,
-				dataAttribute);
+		List<DataChild> returnedValue = dataGroup.getChildrenOfTypeAndName(type, name);
 
 		assertTrue(returnedValue instanceof List<DataChild>);
 	}
@@ -639,18 +623,12 @@ public class DataGroupSpyTest {
 
 		Class<DataRecordLinkSpy> type = DataRecordLinkSpy.class;
 		String name = "name";
-		DataAttributeSpy[] dataAttribute = new DataAttributeSpy[1];
 
-		List<DataRecordLinkSpy> returnedValue = dataGroup
-				.getChildrenOfTypeWithNameAndAttributes(type, name, dataAttribute);
+		List<DataRecordLinkSpy> returnedValue = dataGroup.getChildrenOfTypeAndName(type, name);
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "type", type);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "name", name);
-		Object[] returnValue = (Object[]) mcrForSpy
-				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
-						"attributes");
-		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "attributes", returnValue);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
 	}
 
@@ -658,10 +636,8 @@ public class DataGroupSpyTest {
 	public void testDefaultRemoveFirstChildWithTypeNameAndAttributes() throws Exception {
 		Class<DataChild> type = DataChild.class;
 		String name = "name";
-		DataAttributeSpy dataAttribute = new DataAttributeSpy();
 
-		boolean returnedValue = dataGroup.removeFirstChildWithTypeNameAndAttributes(type, name,
-				dataAttribute);
+		boolean returnedValue = dataGroup.removeFirstChildWithTypeAndName(type, name);
 
 		assertFalse(returnedValue);
 	}
@@ -674,18 +650,12 @@ public class DataGroupSpyTest {
 
 		Class<DataRecordLinkSpy> type = DataRecordLinkSpy.class;
 		String name = "name";
-		DataAttributeSpy[] dataAttribute = new DataAttributeSpy[1];
 
-		boolean returnedValue = dataGroup.removeFirstChildWithTypeNameAndAttributes(type, name,
-				dataAttribute);
+		boolean returnedValue = dataGroup.removeFirstChildWithTypeAndName(type, name);
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "type", type);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "name", name);
-		Object[] returnValue = (Object[]) mcrForSpy
-				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
-						"attributes");
-		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "attributes", returnValue);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
 	}
 
@@ -693,10 +663,8 @@ public class DataGroupSpyTest {
 	public void testDefaultRemoveChildrenWithTypeNameAndAttributes() throws Exception {
 		Class<DataChild> type = DataChild.class;
 		String name = "name";
-		DataAttributeSpy dataAttribute = new DataAttributeSpy();
 
-		boolean returnedValue = dataGroup.removeChildrenWithTypeNameAndAttributes(type, name,
-				dataAttribute);
+		boolean returnedValue = dataGroup.removeChildrenWithTypeAndName(type, name);
 
 		assertFalse(returnedValue);
 	}
@@ -709,18 +677,12 @@ public class DataGroupSpyTest {
 
 		Class<DataRecordLinkSpy> type = DataRecordLinkSpy.class;
 		String name = "name";
-		DataAttributeSpy[] dataAttribute = new DataAttributeSpy[1];
 
-		boolean returnedValue = dataGroup.removeChildrenWithTypeNameAndAttributes(type, name,
-				dataAttribute);
+		boolean returnedValue = dataGroup.removeChildrenWithTypeAndName(type, name);
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "type", type);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "name", name);
-		Object[] returnValue = (Object[]) mcrForSpy
-				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
-						"attributes");
-		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "attributes", returnValue);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
 	}
 }
