@@ -21,6 +21,7 @@ package se.uu.ub.cora.data.spies;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.DataAtomic;
@@ -84,6 +85,7 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 				ArrayList<DataChildSpy>::new);
 		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithTypeAndName", () -> false);
 		MRV.setDefaultReturnValuesSupplier("removeChildrenWithTypeAndName", () -> false);
+		MRV.setDefaultReturnValuesSupplier("getAttributeValue", Optional::empty);
 	}
 
 	@Override
@@ -292,5 +294,10 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	@Override
 	public <T> boolean removeChildrenWithTypeAndName(Class<T> type, String name) {
 		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public Optional<String> getAttributeValue(String nameInData) {
+		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
 	}
 }

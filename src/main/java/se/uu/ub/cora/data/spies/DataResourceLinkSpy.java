@@ -20,6 +20,7 @@ package se.uu.ub.cora.data.spies;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.Action;
@@ -45,6 +46,7 @@ public class DataResourceLinkSpy implements DataResourceLink {
 		MRV.setDefaultReturnValuesSupplier("getFileName", String::new);
 		MRV.setDefaultReturnValuesSupplier("getFileSize", String::new);
 		MRV.setDefaultReturnValuesSupplier("getMimeType", String::new);
+		MRV.setDefaultReturnValuesSupplier("getAttributeValue", Optional::empty);
 	}
 
 	@Override
@@ -130,6 +132,11 @@ public class DataResourceLinkSpy implements DataResourceLink {
 	@Override
 	public String getMimeType() {
 		return (String) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public Optional<String> getAttributeValue(String nameInData) {
+		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
 	}
 
 }

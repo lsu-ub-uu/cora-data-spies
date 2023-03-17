@@ -20,6 +20,7 @@ package se.uu.ub.cora.data.spies;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.Action;
@@ -43,6 +44,7 @@ public class DataRecordLinkSpy implements DataRecordLink {
 		MRV.setDefaultReturnValuesSupplier("getAttributes", ArrayList<DataAttribute>::new);
 		MRV.setDefaultReturnValuesSupplier("getLinkedRecordId", String::new);
 		MRV.setDefaultReturnValuesSupplier("getLinkedRecordType", String::new);
+		MRV.setDefaultReturnValuesSupplier("getAttributeValue", Optional::empty);
 	}
 
 	@Override
@@ -100,4 +102,8 @@ public class DataRecordLinkSpy implements DataRecordLink {
 		return (String) MCR.addCallAndReturnFromMRV();
 	}
 
+	@Override
+	public Optional<String> getAttributeValue(String nameInData) {
+		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
+	}
 }
