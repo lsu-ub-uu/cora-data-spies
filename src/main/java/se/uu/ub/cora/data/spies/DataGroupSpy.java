@@ -238,17 +238,19 @@ public class DataGroupSpy implements DataGroup {
 	}
 
 	@Override
-	public <T> boolean removeFirstChildWithTypeAndName(Class<T> type, String name) {
-		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
-	}
-
-	@Override
-	public <T> boolean removeChildrenWithTypeAndName(Class<T> type, String name) {
+	public <T extends DataChild> boolean removeFirstChildWithTypeAndName(Class<T> type,
+			String name) {
 		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
 	}
 
 	@Override
 	public Optional<String> getAttributeValue(String nameInData) {
 		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
+	}
+
+	@Override
+	public <T extends DataChild> boolean removeChildrenWithTypeAndName(Class<T> type, String name) {
+		// TODO Auto-generated method stub
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
 	}
 }

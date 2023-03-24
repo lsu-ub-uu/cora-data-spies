@@ -287,12 +287,13 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	}
 
 	@Override
-	public <T> boolean removeFirstChildWithTypeAndName(Class<T> type, String name) {
+	public <T extends DataChild> boolean removeFirstChildWithTypeAndName(Class<T> type,
+			String name) {
 		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
 	}
 
 	@Override
-	public <T> boolean removeChildrenWithTypeAndName(Class<T> type, String name) {
+	public <T extends DataChild> boolean removeChildrenWithTypeAndName(Class<T> type, String name) {
 		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
 	}
 
