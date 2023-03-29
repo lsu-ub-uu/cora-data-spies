@@ -20,6 +20,7 @@ package se.uu.ub.cora.data.spies;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.DataAttribute;
@@ -39,9 +40,7 @@ public class DataChildSpy implements DataChild {
 		MRV.setDefaultReturnValuesSupplier("hasAttributes", (Supplier<Boolean>) () -> false);
 		MRV.setDefaultReturnValuesSupplier("getAttribute", DataAttributeSpy::new);
 		MRV.setDefaultReturnValuesSupplier("getAttributes", ArrayList<DataAttribute>::new);
-		// MRV.setDefaultReturnValuesSupplier("hasReadAction", (Supplier<Boolean>) () -> false);
-		// MRV.setDefaultReturnValuesSupplier("getLinkedRecordId", String::new);
-		// MRV.setDefaultReturnValuesSupplier("getLinkedRecordType", String::new);
+		MRV.setDefaultReturnValuesSupplier("getAttributeValue", Optional::empty);
 	}
 
 	@Override
@@ -77,5 +76,10 @@ public class DataChildSpy implements DataChild {
 	@Override
 	public Collection<DataAttribute> getAttributes() {
 		return (Collection<DataAttribute>) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public Optional<String> getAttributeValue(String nameInData) {
+		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
 	}
 }

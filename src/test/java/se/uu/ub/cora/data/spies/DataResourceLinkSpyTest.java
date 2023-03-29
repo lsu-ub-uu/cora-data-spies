@@ -18,12 +18,14 @@
  */
 package se.uu.ub.cora.data.spies;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.testng.annotations.BeforeMethod;
@@ -31,8 +33,6 @@ import org.testng.annotations.Test;
 
 import se.uu.ub.cora.data.Action;
 import se.uu.ub.cora.data.DataAttribute;
-import se.uu.ub.cora.data.spies.DataAttributeSpy;
-import se.uu.ub.cora.data.spies.DataResourceLinkSpy;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 import se.uu.ub.cora.testutils.spies.MCRSpy;
@@ -285,5 +285,26 @@ public class DataResourceLinkSpyTest {
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
+
+	@Test
+	public void testDefaultGetAttributeValue() throws Exception {
+
+		Optional<String> returnedValue = dataResourceLink.getAttributeValue("someNameInData");
+
+		assertTrue(returnedValue.isEmpty());
+	}
+
+	@Test
+	public void testGetAttributeValue() throws Exception {
+		dataResourceLink.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
+				() -> Optional.of("someValueToReturn"));
+
+		Optional<String> returnedValue = dataResourceLink.getAttributeValue("someNameInData");
+
+		assertTrue(returnedValue.isPresent());
+		assertEquals(returnedValue.get(), "someValueToReturn");
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "nameInData", "someNameInData");
 	}
 }

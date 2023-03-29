@@ -21,6 +21,7 @@ package se.uu.ub.cora.data.spies;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.DataAtomic;
@@ -76,6 +77,15 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("getType", String::new);
 		MRV.setDefaultReturnValuesSupplier("getId", String::new);
 		MRV.setDefaultReturnValuesSupplier("getDataDivider", String::new);
+		MRV.setDefaultReturnValuesSupplier("getValidationType", String::new);
+
+		MRV.setDefaultReturnValuesSupplier("containsChildOfTypeAndName", () -> false);
+		MRV.setDefaultReturnValuesSupplier("getFirstChildOfTypeAndName", DataChildSpy::new);
+		MRV.setDefaultReturnValuesSupplier("getChildrenOfTypeAndName",
+				ArrayList<DataChildSpy>::new);
+		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithTypeAndName", () -> false);
+		MRV.setDefaultReturnValuesSupplier("removeChildrenWithTypeAndName", () -> false);
+		MRV.setDefaultReturnValuesSupplier("getAttributeValue", Optional::empty);
 	}
 
 	@Override
@@ -250,4 +260,45 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MCR.addCall("dataDivider", dataDivider);
 	}
 
+	@Override
+	public String getValidationType() {
+		return (String) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public void setValidationType(String validationType) {
+		MCR.addCall("validationType", validationType);
+
+	}
+
+	@Override
+	public <T> boolean containsChildOfTypeAndName(Class<T> type, String name) {
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public <T extends DataChild> T getFirstChildOfTypeAndName(Class<T> type, String name) {
+		return (T) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public <T extends DataChild> List<T> getChildrenOfTypeAndName(Class<T> type, String name) {
+		return (List<T>) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public <T extends DataChild> boolean removeFirstChildWithTypeAndName(Class<T> type,
+			String name) {
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public <T extends DataChild> boolean removeChildrenWithTypeAndName(Class<T> type, String name) {
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public Optional<String> getAttributeValue(String nameInData) {
+		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
+	}
 }

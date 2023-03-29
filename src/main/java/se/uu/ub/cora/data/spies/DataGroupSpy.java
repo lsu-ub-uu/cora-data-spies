@@ -21,7 +21,7 @@ package se.uu.ub.cora.data.spies;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.Optional;
 
 import se.uu.ub.cora.data.DataAtomic;
 import se.uu.ub.cora.data.DataAttribute;
@@ -40,12 +40,11 @@ public class DataGroupSpy implements DataGroup {
 		MCR.useMRV(MRV);
 		MRV.setDefaultReturnValuesSupplier("getRepeatId", String::new);
 		MRV.setDefaultReturnValuesSupplier("getNameInData", String::new);
-		MRV.setDefaultReturnValuesSupplier("hasAttributes", (Supplier<Boolean>) () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasAttributes", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getAttribute", DataAttributeSpy::new);
 		MRV.setDefaultReturnValuesSupplier("getAttributes", ArrayList<DataAttribute>::new);
-		MRV.setDefaultReturnValuesSupplier("hasChildren", (Supplier<Boolean>) () -> true);
-		MRV.setDefaultReturnValuesSupplier("containsChildWithNameInData",
-				(Supplier<Boolean>) () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasChildren", () -> true);
+		MRV.setDefaultReturnValuesSupplier("containsChildWithNameInData", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getChildren", ArrayList<DataChild>::new);
 		MRV.setDefaultReturnValuesSupplier("getAllChildrenWithNameInData",
 				ArrayList<DataChild>::new);
@@ -62,16 +61,21 @@ public class DataGroupSpy implements DataGroup {
 		MRV.setDefaultReturnValuesSupplier("getAllGroupsWithNameInData", ArrayList<DataGroup>::new);
 		MRV.setDefaultReturnValuesSupplier("getAllGroupsWithNameInDataAndAttributes",
 				ArrayList<DataGroup>::new);
-		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithNameInData",
-				(Supplier<Boolean>) () -> true);
-		MRV.setDefaultReturnValuesSupplier("removeAllChildrenWithNameInData",
-				(Supplier<Boolean>) () -> true);
+		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithNameInData", () -> true);
+		MRV.setDefaultReturnValuesSupplier("removeAllChildrenWithNameInData", () -> true);
 		MRV.setDefaultReturnValuesSupplier("removeAllChildrenWithNameInDataAndAttributes",
-				(Supplier<Boolean>) () -> true);
+				() -> true);
 		MRV.setDefaultReturnValuesSupplier("getAllChildrenMatchingFilter",
 				ArrayList<DataChild>::new);
-		MRV.setDefaultReturnValuesSupplier("removeAllChildrenMatchingFilter",
-				(Supplier<Boolean>) () -> true);
+		MRV.setDefaultReturnValuesSupplier("removeAllChildrenMatchingFilter", () -> true);
+
+		MRV.setDefaultReturnValuesSupplier("containsChildOfTypeAndName", () -> false);
+		MRV.setDefaultReturnValuesSupplier("getFirstChildOfTypeAndName", DataChildSpy::new);
+		MRV.setDefaultReturnValuesSupplier("getChildrenOfTypeAndName",
+				ArrayList<DataChildSpy>::new);
+		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithTypeAndName", () -> false);
+		MRV.setDefaultReturnValuesSupplier("removeChildrenWithTypeAndName", () -> false);
+		MRV.setDefaultReturnValuesSupplier("getAttributeValue", Optional::empty);
 	}
 
 	@Override
@@ -217,4 +221,36 @@ public class DataGroupSpy implements DataGroup {
 		return (boolean) MCR.addCallAndReturnFromMRV("childFilter", childFilter);
 	}
 
+	@Override
+	public <T> boolean containsChildOfTypeAndName(Class<T> type, String name) {
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public <T extends DataChild> T getFirstChildOfTypeAndName(Class<T> type, String name) {
+
+		return (T) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public <T extends DataChild> List<T> getChildrenOfTypeAndName(Class<T> type, String name) {
+		return (List<T>) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public <T extends DataChild> boolean removeFirstChildWithTypeAndName(Class<T> type,
+			String name) {
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public Optional<String> getAttributeValue(String nameInData) {
+		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
+	}
+
+	@Override
+	public <T extends DataChild> boolean removeChildrenWithTypeAndName(Class<T> type, String name) {
+		// TODO Auto-generated method stub
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
 }

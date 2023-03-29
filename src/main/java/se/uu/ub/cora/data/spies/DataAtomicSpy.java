@@ -20,6 +20,7 @@ package se.uu.ub.cora.data.spies;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.DataAtomic;
@@ -40,6 +41,7 @@ public class DataAtomicSpy implements DataAtomic {
 		MRV.setDefaultReturnValuesSupplier("getAttributes", ArrayList<DataAttribute>::new);
 		MRV.setDefaultReturnValuesSupplier("getNameInData", String::new);
 		MRV.setDefaultReturnValuesSupplier("getValue", String::new);
+		MRV.setDefaultReturnValuesSupplier("getAttributeValue", Optional::empty);
 	}
 
 	@Override
@@ -81,4 +83,10 @@ public class DataAtomicSpy implements DataAtomic {
 	public String getValue() {
 		return (String) MCR.addCallAndReturnFromMRV();
 	}
+
+	@Override
+	public Optional<String> getAttributeValue(String nameInData) {
+		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
+	}
+
 }
