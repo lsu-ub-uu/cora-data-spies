@@ -21,7 +21,6 @@ package se.uu.ub.cora.data.spies;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.Action;
 import se.uu.ub.cora.data.DataAttribute;
@@ -36,10 +35,11 @@ public class DataResourceLinkSpy implements DataResourceLink {
 
 	public DataResourceLinkSpy() {
 		MCR.useMRV(MRV);
-		MRV.setDefaultReturnValuesSupplier("hasReadAction", (Supplier<Boolean>) () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasReadAction", () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasRepeatId", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getRepeatId", String::new);
 		MRV.setDefaultReturnValuesSupplier("getNameInData", String::new);
-		MRV.setDefaultReturnValuesSupplier("hasAttributes", (Supplier<Boolean>) () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasAttributes", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getAttribute", DataAttributeSpy::new);
 		MRV.setDefaultReturnValuesSupplier("getAttributes", ArrayList<DataAttribute>::new);
 		MRV.setDefaultReturnValuesSupplier("getStreamId", String::new);
@@ -56,6 +56,11 @@ public class DataResourceLinkSpy implements DataResourceLink {
 
 	@Override
 	public boolean hasReadAction() {
+		return (boolean) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public boolean hasRepeatId() {
 		return (boolean) MCR.addCallAndReturnFromMRV();
 	}
 
@@ -95,36 +100,6 @@ public class DataResourceLinkSpy implements DataResourceLink {
 	}
 
 	@Override
-	public void setStreamId(String streamId) {
-		MCR.addCall("streamId", streamId);
-	}
-
-	@Override
-	public String getStreamId() {
-		return (String) MCR.addCallAndReturnFromMRV();
-	}
-
-	@Override
-	public void setFileName(String fileName) {
-		MCR.addCall("fileName", fileName);
-	}
-
-	@Override
-	public String getFileName() {
-		return (String) MCR.addCallAndReturnFromMRV();
-	}
-
-	@Override
-	public void setFileSize(String fileSize) {
-		MCR.addCall("fileSize", fileSize);
-	}
-
-	@Override
-	public String getFileSize() {
-		return (String) MCR.addCallAndReturnFromMRV();
-	}
-
-	@Override
 	public void setMimeType(String mimeType) {
 		MCR.addCall("mimeType", mimeType);
 	}
@@ -138,5 +113,4 @@ public class DataResourceLinkSpy implements DataResourceLink {
 	public Optional<String> getAttributeValue(String nameInData) {
 		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
 	}
-
 }

@@ -21,7 +21,6 @@ package se.uu.ub.cora.data.spies;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.DataAtomic;
 import se.uu.ub.cora.data.DataAttribute;
@@ -35,8 +34,9 @@ public class DataAtomicSpy implements DataAtomic {
 
 	public DataAtomicSpy() {
 		MCR.useMRV(MRV);
+		MRV.setDefaultReturnValuesSupplier("hasRepeatId", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getRepeatId", String::new);
-		MRV.setDefaultReturnValuesSupplier("hasAttributes", (Supplier<Boolean>) () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasAttributes", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getAttribute", DataAttributeSpy::new);
 		MRV.setDefaultReturnValuesSupplier("getAttributes", ArrayList<DataAttribute>::new);
 		MRV.setDefaultReturnValuesSupplier("getNameInData", String::new);
@@ -57,6 +57,11 @@ public class DataAtomicSpy implements DataAtomic {
 	@Override
 	public void addAttributeByIdWithValue(String nameInData, String value) {
 		MCR.addCall("nameInData", nameInData, "value", value);
+	}
+
+	@Override
+	public boolean hasRepeatId() {
+		return (boolean) MCR.addCallAndReturnFromMRV();
 	}
 
 	@Override

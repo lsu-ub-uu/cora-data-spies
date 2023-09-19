@@ -83,6 +83,22 @@ public class DataChildSpyTest {
 	}
 
 	@Test
+	public void testDefaultHasRepeatId() throws Exception {
+		assertFalse(dataChild.hasRepeatId());
+	}
+
+	@Test
+	public void testHasRepeatId() throws Exception {
+		dataChild.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> true);
+
+		var returnedValue = dataChild.hasRepeatId();
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
+
+	@Test
 	public void testDefaultGetRepeatId() throws Exception {
 		assertTrue(dataChild.getRepeatId() instanceof String);
 	}

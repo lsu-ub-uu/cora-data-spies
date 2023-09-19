@@ -85,6 +85,22 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
+	public void testDefaultHasRepeatId() throws Exception {
+		assertFalse(dataRecordLink.hasRepeatId());
+	}
+
+	@Test
+	public void testHasRepeatId() throws Exception {
+		dataRecordLink.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> true);
+
+		var returnedValue = dataRecordLink.hasRepeatId();
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
+
+	@Test
 	public void testSetRepeatId() throws Exception {
 		dataRecordLink.MCR = MCRSpy;
 
