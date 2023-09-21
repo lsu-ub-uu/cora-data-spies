@@ -67,6 +67,23 @@ public class DataAtomicSpyTest {
 	}
 
 	@Test
+	public void testDefaultHasRepeatId() throws Exception {
+		assertFalse(dataAtomic.hasRepeatId());
+	}
+
+	@Test
+	public void testHasRepeatId() throws Exception {
+		dataAtomic.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
+				(Supplier<Boolean>) () -> true);
+
+		var returnedValue = dataAtomic.hasRepeatId();
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
+
+	@Test
 	public void testDefaultGetRepeatId() throws Exception {
 		assertTrue(dataAtomic.getRepeatId() instanceof String);
 	}

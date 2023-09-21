@@ -38,6 +38,7 @@ public class DataGroupSpy implements DataGroup {
 
 	public DataGroupSpy() {
 		MCR.useMRV(MRV);
+		MRV.setDefaultReturnValuesSupplier("hasRepeatId", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getRepeatId", String::new);
 		MRV.setDefaultReturnValuesSupplier("getNameInData", String::new);
 		MRV.setDefaultReturnValuesSupplier("hasAttributes", () -> false);
@@ -81,6 +82,11 @@ public class DataGroupSpy implements DataGroup {
 	@Override
 	public void setRepeatId(String repeatId) {
 		MCR.addCall("repeatId", repeatId);
+	}
+
+	@Override
+	public boolean hasRepeatId() {
+		return (boolean) MCR.addCallAndReturnFromMRV();
 	}
 
 	@Override

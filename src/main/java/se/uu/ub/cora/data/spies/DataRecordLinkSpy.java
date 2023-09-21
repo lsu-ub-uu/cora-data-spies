@@ -21,7 +21,6 @@ package se.uu.ub.cora.data.spies;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.Action;
 import se.uu.ub.cora.data.DataAttribute;
@@ -36,10 +35,11 @@ public class DataRecordLinkSpy implements DataRecordLink {
 
 	public DataRecordLinkSpy() {
 		MCR.useMRV(MRV);
-		MRV.setDefaultReturnValuesSupplier("hasReadAction", (Supplier<Boolean>) () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasReadAction", () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasRepeatId", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getRepeatId", String::new);
 		MRV.setDefaultReturnValuesSupplier("getNameInData", String::new);
-		MRV.setDefaultReturnValuesSupplier("hasAttributes", (Supplier<Boolean>) () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasAttributes", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getAttribute", DataAttributeSpy::new);
 		MRV.setDefaultReturnValuesSupplier("getAttributes", ArrayList<DataAttribute>::new);
 		MRV.setDefaultReturnValuesSupplier("getLinkedRecordId", String::new);
@@ -54,6 +54,11 @@ public class DataRecordLinkSpy implements DataRecordLink {
 
 	@Override
 	public boolean hasReadAction() {
+		return (boolean) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public boolean hasRepeatId() {
 		return (boolean) MCR.addCallAndReturnFromMRV();
 	}
 
@@ -106,4 +111,5 @@ public class DataRecordLinkSpy implements DataRecordLink {
 	public Optional<String> getAttributeValue(String nameInData) {
 		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
 	}
+
 }
