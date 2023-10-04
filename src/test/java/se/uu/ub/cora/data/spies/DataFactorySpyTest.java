@@ -33,16 +33,6 @@ import se.uu.ub.cora.data.DataRecord;
 import se.uu.ub.cora.data.DataRecordGroup;
 import se.uu.ub.cora.data.DataRecordLink;
 import se.uu.ub.cora.data.DataResourceLink;
-import se.uu.ub.cora.data.spies.DataAtomicSpy;
-import se.uu.ub.cora.data.spies.DataAttributeSpy;
-import se.uu.ub.cora.data.spies.DataChildFilterSpy;
-import se.uu.ub.cora.data.spies.DataFactorySpy;
-import se.uu.ub.cora.data.spies.DataGroupSpy;
-import se.uu.ub.cora.data.spies.DataListSpy;
-import se.uu.ub.cora.data.spies.DataRecordGroupSpy;
-import se.uu.ub.cora.data.spies.DataRecordLinkSpy;
-import se.uu.ub.cora.data.spies.DataRecordSpy;
-import se.uu.ub.cora.data.spies.DataResourceLinkSpy;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 import se.uu.ub.cora.testutils.spies.MCRSpy;
@@ -227,8 +217,8 @@ public class DataFactorySpyTest {
 
 	@Test
 	public void testDefaultFactorResourceLinkUsingNameInData() throws Exception {
-		assertTrue(dataFactory
-				.factorResourceLinkUsingNameInData("nameInData") instanceof DataResourceLinkSpy);
+		assertTrue(dataFactory.factorResourceLinkUsingNameInDataAndMimeType("nameInData",
+				"someMimeType") instanceof DataResourceLinkSpy);
 	}
 
 	@Test
@@ -237,10 +227,12 @@ public class DataFactorySpyTest {
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				DataResourceLinkSpy::new);
 
-		DataResourceLink retunedValue = dataFactory.factorResourceLinkUsingNameInData("nameInData");
+		DataResourceLink retunedValue = dataFactory
+				.factorResourceLinkUsingNameInDataAndMimeType("nameInData", "someMimeType");
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "nameInData", "nameInData");
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "mimeType", "someMimeType");
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
 	}
 
