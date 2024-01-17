@@ -42,9 +42,6 @@ public class DataResourceLinkSpy implements DataResourceLink {
 		MRV.setDefaultReturnValuesSupplier("hasAttributes", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getAttribute", DataAttributeSpy::new);
 		MRV.setDefaultReturnValuesSupplier("getAttributes", ArrayList<DataAttribute>::new);
-		MRV.setDefaultReturnValuesSupplier("getStreamId", String::new);
-		MRV.setDefaultReturnValuesSupplier("getFileName", String::new);
-		MRV.setDefaultReturnValuesSupplier("getFileSize", String::new);
 		MRV.setDefaultReturnValuesSupplier("getMimeType", String::new);
 		MRV.setDefaultReturnValuesSupplier("getAttributeValue", Optional::empty);
 	}
