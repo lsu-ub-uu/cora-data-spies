@@ -31,8 +31,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import se.uu.ub.cora.data.Action;
-import se.uu.ub.cora.data.spies.DataGroupSpy;
-import se.uu.ub.cora.data.spies.DataRecordSpy;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 import se.uu.ub.cora.testutils.spies.MCRSpy;
@@ -291,6 +289,35 @@ public class DataRecordSpyTest {
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, String::new);
 
 		String returnedValue = dataRecord.getSearchId();
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
+
+	@Test
+	public void testAddProtocol() throws Exception {
+		dataRecord.MCR = MCRSpy;
+
+		dataRecord.addProtocol("someProtocol");
+
+		mcrForSpy.assertParameter(ADD_CALL, 0, "protocol", "someProtocol");
+	}
+
+	@Test
+	public void testDefaultGetProtocols() throws Exception {
+		Set<String> returnedValue = dataRecord.getProtocols();
+
+		assertTrue(returnedValue.isEmpty());
+	}
+
+	@Test
+	public void testGetProtocols() throws Exception {
+		dataRecord.MCR = MCRSpy;
+		Set<String> protocols = Set.of("someProtocol", "someOtherProtocol");
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
+				(Supplier<Set<String>>) () -> protocols);
+
+		Set<String> returnedValue = dataRecord.getProtocols();
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);

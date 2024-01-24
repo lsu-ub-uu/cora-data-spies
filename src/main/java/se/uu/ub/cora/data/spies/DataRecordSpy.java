@@ -47,6 +47,7 @@ public class DataRecordSpy implements DataRecord {
 		MRV.setDefaultReturnValuesSupplier("hasWritePermissions", (Supplier<Boolean>) () -> false);
 		MRV.setDefaultReturnValuesSupplier("getWritePermissions", Collections::emptySet);
 		MRV.setDefaultReturnValuesSupplier("getSearchId", String::new);
+		MRV.setDefaultReturnValuesSupplier("getProtocols", Collections::emptySet);
 	}
 
 	@Override
@@ -130,6 +131,16 @@ public class DataRecordSpy implements DataRecord {
 	@Override
 	public String getSearchId() {
 		return (String) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public void addProtocol(String protocol) {
+		MCR.addCall("protocol", protocol);
+	}
+
+	@Override
+	public Set<String> getProtocols() {
+		return (Set<String>) MCR.addCallAndReturnFromMRV();
 	}
 
 }
