@@ -22,10 +22,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.Action;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.data.DataRecord;
-import se.uu.ub.cora.data.DataRecordGroup;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 
@@ -38,12 +39,12 @@ public class DataRecordSpy implements DataRecord {
 		MCR.useMRV(MRV);
 		MRV.setDefaultReturnValuesSupplier("getType", String::new);
 		MRV.setDefaultReturnValuesSupplier("getId", String::new);
-		MRV.setDefaultReturnValuesSupplier("getDataRecordGroup", DataRecordGroupSpy::new);
-		MRV.setDefaultReturnValuesSupplier("hasActions", () -> false);
+		MRV.setDefaultReturnValuesSupplier("getDataGroup", DataGroupSpy::new);
+		MRV.setDefaultReturnValuesSupplier("hasActions", (Supplier<Boolean>) () -> false);
 		MRV.setDefaultReturnValuesSupplier("getActions", Collections::emptyList);
-		MRV.setDefaultReturnValuesSupplier("hasReadPermissions", () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasReadPermissions", (Supplier<Boolean>) () -> false);
 		MRV.setDefaultReturnValuesSupplier("getReadPermissions", Collections::emptySet);
-		MRV.setDefaultReturnValuesSupplier("hasWritePermissions", () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasWritePermissions", (Supplier<Boolean>) () -> false);
 		MRV.setDefaultReturnValuesSupplier("getWritePermissions", Collections::emptySet);
 		MRV.setDefaultReturnValuesSupplier("getSearchId", String::new);
 		MRV.setDefaultReturnValuesSupplier("getProtocols", Collections::emptySet);
@@ -60,14 +61,14 @@ public class DataRecordSpy implements DataRecord {
 	}
 
 	@Override
-	public void setDataRecordGroup(DataRecordGroup dataRecordGroup) {
-		MCR.addCall("dataGroup", dataRecordGroup);
+	public void setDataGroup(DataGroup dataGroup) {
+		MCR.addCall("dataGroup", dataGroup);
 
 	}
 
 	@Override
-	public DataRecordGroup getDataRecordGroup() {
-		return (DataRecordGroup) MCR.addCallAndReturnFromMRV();
+	public DataGroup getDataGroup() {
+		return (DataGroup) MCR.addCallAndReturnFromMRV();
 	}
 
 	@Override

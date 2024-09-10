@@ -91,25 +91,24 @@ public class DataRecordSpyTest {
 	@Test
 	public void testSetDataGroup() throws Exception {
 		dataRecord.MCR = MCRSpy;
-		DataRecordGroupSpy dataRecordGroup = new DataRecordGroupSpy();
+		DataGroupSpy dataGroup = new DataGroupSpy();
 
-		dataRecord.setDataRecordGroup(dataRecordGroup);
+		dataRecord.setDataGroup(dataGroup);
 
-		mcrForSpy.assertParameter(ADD_CALL, 0, "dataGroup", dataRecordGroup);
+		mcrForSpy.assertParameter(ADD_CALL, 0, "dataGroup", dataGroup);
 	}
 
 	@Test
 	public void testDefaultGetDataGroup() throws Exception {
-		assertTrue(dataRecord.getDataRecordGroup() instanceof DataRecordGroupSpy);
+		assertTrue(dataRecord.getDataGroup() instanceof DataGroupSpy);
 	}
 
 	@Test
-	public void testGetDataRecordGroup() throws Exception {
+	public void testGetDataGroup() throws Exception {
 		dataRecord.MCR = MCRSpy;
-		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
-				DataRecordGroupSpy::new);
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, DataGroupSpy::new);
 
-		var returnedValue = dataRecord.getDataRecordGroup();
+		var returnedValue = dataRecord.getDataGroup();
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
