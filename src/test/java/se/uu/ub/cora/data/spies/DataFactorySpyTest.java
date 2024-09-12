@@ -78,21 +78,23 @@ public class DataFactorySpyTest {
 	}
 
 	@Test
-	public void testDefaultFactorRecordUsingDataGroup() throws Exception {
-		DataGroup dataGroupSpy = new DataGroupSpy();
-		assertTrue(dataFactory.factorRecordUsingDataGroup(dataGroupSpy) instanceof DataRecordSpy);
+	public void testDefaultFactorRecordUsingDataRecordGroup() throws Exception {
+		DataRecordGroup dataRecordGroupSpy = new DataRecordGroupSpy();
+		assertTrue(dataFactory
+				.factorRecordUsingDataRecordGroup(dataRecordGroupSpy) instanceof DataRecordSpy);
 	}
 
 	@Test
-	public void testFactorRecordUsingDataGroup() throws Exception {
+	public void testFactorRecordUsingDataRecordGroup() throws Exception {
 		dataFactory.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, DataRecordSpy::new);
-		DataGroup dataGroupSpy = new DataGroupSpy();
+		DataRecordGroup dataRecordGroupSpy = new DataRecordGroupSpy();
 
-		DataRecord retunedValue = dataFactory.factorRecordUsingDataGroup(dataGroupSpy);
+		DataRecord retunedValue = dataFactory.factorRecordUsingDataRecordGroup(dataRecordGroupSpy);
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
-		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "dataGroup", dataGroupSpy);
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "dataRecordGroup",
+				dataRecordGroupSpy);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
 	}
 
