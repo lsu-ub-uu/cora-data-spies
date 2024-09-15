@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Olov McKie
+ * Copyright 2022, 2024 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -27,9 +27,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import se.uu.ub.cora.data.DataAtomic;
@@ -535,110 +537,6 @@ public class DataRecordGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetType() throws Exception {
-		assertTrue(dataRecordGroup.getType() instanceof String);
-	}
-
-	@Test
-	public void testGetType() throws Exception {
-		dataRecordGroup.MCR = MCRSpy;
-		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, String::new);
-
-		String returnedValue = dataRecordGroup.getType();
-
-		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
-		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
-	}
-
-	@Test
-	public void testSetType() throws Exception {
-		String type = "someType";
-		dataRecordGroup.MCR = MCRSpy;
-
-		dataRecordGroup.setType(type);
-
-		mcrForSpy.assertParameter(ADD_CALL, 0, "type", type);
-	}
-
-	@Test
-	public void testDefaultGetId() throws Exception {
-		assertTrue(dataRecordGroup.getId() instanceof String);
-	}
-
-	@Test
-	public void testGetId() throws Exception {
-		dataRecordGroup.MCR = MCRSpy;
-		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, String::new);
-
-		String returnedValue = dataRecordGroup.getId();
-
-		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
-		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
-	}
-
-	@Test
-	public void testSetId() throws Exception {
-		String id = "someId";
-		dataRecordGroup.MCR = MCRSpy;
-
-		dataRecordGroup.setId(id);
-
-		mcrForSpy.assertParameter(ADD_CALL, 0, "id", id);
-	}
-
-	@Test
-	public void testDefaultGetDataDivider() throws Exception {
-		assertTrue(dataRecordGroup.getDataDivider() instanceof String);
-	}
-
-	@Test
-	public void testGetDataDivider() throws Exception {
-		dataRecordGroup.MCR = MCRSpy;
-		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, String::new);
-
-		String returnedValue = dataRecordGroup.getDataDivider();
-
-		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
-		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
-	}
-
-	@Test
-	public void testSetDataDivider() throws Exception {
-		String dataDivider = "someDataDivider";
-		dataRecordGroup.MCR = MCRSpy;
-
-		dataRecordGroup.setDataDivider(dataDivider);
-
-		mcrForSpy.assertParameter(ADD_CALL, 0, "dataDivider", dataDivider);
-	}
-
-	@Test
-	public void testDefaultGetValidationType() throws Exception {
-		assertTrue(dataRecordGroup.getValidationType() instanceof String);
-	}
-
-	@Test
-	public void testGetValidationType() throws Exception {
-		dataRecordGroup.MCR = MCRSpy;
-		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, String::new);
-
-		String returnedValue = dataRecordGroup.getValidationType();
-
-		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
-		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
-	}
-
-	@Test
-	public void testSetValidationType() throws Exception {
-		String validationType = "someValidationType";
-		dataRecordGroup.MCR = MCRSpy;
-
-		dataRecordGroup.setValidationType(validationType);
-
-		mcrForSpy.assertParameter(ADD_CALL, 0, "validationType", validationType);
-	}
-
-	@Test
 	public void testDefaultContainsChildWithName() throws Exception {
 		Class<DataChild> type = DataChild.class;
 		String name = "someNameInData";
@@ -671,39 +569,6 @@ public class DataRecordGroupSpyTest {
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "name", name);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
 	}
-
-	// @Test
-	// public void testName() throws Exception {
-	// DataRecordGroupSpy dataRecordGroup = new DataRecordGroupSpy();
-	// DataRecordLinkSpy textLink = new DataRecordLinkSpy();
-	//
-	// dataRecordGroup.MRV.setSpecificReturnValuesSupplier("getFirstChildOfTypeAndName",
-	// () -> textLink, DataRecordLink.class, "textId", new DataAttribute[0]);
-	//
-	// DataRecordLink returnedValue = dataRecordGroup
-	// .getFirstChildOfTypeAndName(DataRecordLink.class, "textId");
-	//
-	// assertSame(returnedValue, textLink);
-	// }
-	//
-	// @Test
-	// public void testName2() throws Exception {
-	// DataRecordGroupSpy dataRecordGroup = new DataRecordGroupSpy();
-	//
-	// DataRecordLinkSpy textLink = new DataRecordLinkSpy();
-	//
-	// DataAttributeSpy dataAttributeSpy = new DataAttributeSpy();
-	// dataAttributeSpy.MRV.setDefaultReturnValuesSupplier("getNameInData",
-	// () -> "someNameInData");
-	// dataAttributeSpy.MRV.setDefaultReturnValuesSupplier("getValue", () -> "someValue");
-	// dataRecordGroup.MRV.setSpecificReturnValuesSupplier("getFirstChildOfTypeAndName",
-	// () -> textLink, DataRecordLink.class, "textId", dataAttributeSpy);
-	//
-	// DataRecordLink returnedValue = dataRecordGroup
-	// .getFirstChildOfTypeAndName(DataRecordLink.class, "textId");
-	//
-	// assertSame(returnedValue, textLink);
-	// }
 
 	@Test
 	public void testDefaultGetChildrenOfTypeAndName() throws Exception {
@@ -788,7 +653,6 @@ public class DataRecordGroupSpyTest {
 
 	@Test
 	public void testDefaultGetAttributeValue() throws Exception {
-
 		Optional<String> returnedValue = dataRecordGroup.getAttributeValue("someNameInData");
 
 		assertTrue(returnedValue.isEmpty());
@@ -805,5 +669,88 @@ public class DataRecordGroupSpyTest {
 		assertTrue(returnedValue.isPresent());
 		assertEquals(returnedValue.get(), "someValueToReturn");
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "nameInData", "someNameInData");
+	}
+
+	@DataProvider(name = "getString")
+	public Object[][] testCasesForGetString() {
+		GetString type = new GetString(() -> dataRecordGroup.getType(), "");
+		GetString id = new GetString(() -> dataRecordGroup.getId(), "");
+		GetString dataDivider = new GetString(() -> dataRecordGroup.getDataDivider(), "");
+		GetString validationType = new GetString(() -> dataRecordGroup.getValidationType(), "");
+		GetString createdBy = new GetString(() -> dataRecordGroup.getCreatedBy(), "");
+		GetString tsCreated = new GetString(() -> dataRecordGroup.getTsCreated(), "");
+		GetString latestUpdatedBy = new GetString(() -> dataRecordGroup.getLatestUpdatedBy(), "");
+		GetString latesTsUpdated = new GetString(() -> dataRecordGroup.getLatestTsUpdated(), "");
+
+		return new GetString[][] { { type }, { id }, { dataDivider }, { validationType },
+				{ createdBy }, { tsCreated }, { latestUpdatedBy }, { latesTsUpdated } };
+	}
+
+	public record GetString(Supplier<String> methodToRun, String defaultValue) {
+	};
+
+	@Test(dataProvider = "getString")
+	public void testGetStringDefaultValue(GetString testData) throws Exception {
+		assertTrue(testData.methodToRun.get() instanceof String);
+		assertEquals(testData.methodToRun.get(), testData.defaultValue);
+	}
+
+	@Test(dataProvider = "getString")
+	public void testGetString(GetString testData) throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> "someValue");
+
+		String returnedValue = testData.methodToRun.get();
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
+
+	@DataProvider(name = "setString")
+	public Object[][] testCasesForSetString() {
+		SetString type = new SetString(T -> dataRecordGroup.setType(T), "type");
+		SetString id = new SetString(T -> dataRecordGroup.setId(T), "id");
+		SetString dataDivider = new SetString(T -> dataRecordGroup.setDataDivider(T),
+				"dataDivider");
+		SetString validationType = new SetString(T -> dataRecordGroup.setValidationType(T),
+				"validationType");
+		SetString createdBy = new SetString(T -> dataRecordGroup.setCreatedBy(T), "userId");
+		SetString tsCreated = new SetString(T -> dataRecordGroup.setTsCreated(T), "tsCreated");
+		SetString addUpdatedUserIdNow = new SetString(
+				T -> dataRecordGroup.addUpdatedUsingUserIdAndTsNow(T), "userId");
+
+		return new SetString[][] { { type }, { id }, { dataDivider }, { validationType },
+				{ createdBy }, { tsCreated }, { addUpdatedUserIdNow } };
+	}
+
+	public record SetString(Consumer<String> methodToRun, String parameterName) {
+	};
+
+	@Test(dataProvider = "setString")
+	public void testSetString(SetString testData) throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+
+		testData.methodToRun.accept("someValue");
+
+		mcrForSpy.assertParameter(ADD_CALL, 0, testData.parameterName, "someValue");
+	}
+
+	@Test
+	public void testSetTsCreatedToNow() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+
+		dataRecordGroup.setTsCreatedToNow();
+
+		mcrForSpy.assertParameters(ADD_CALL, 0);
+	}
+
+	@Test
+	public void testAddUpdatedUsingTsAndUserId() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+
+		dataRecordGroup.addUpdatedUsingUserIdAndTs("valueUser", "valueUpdated");
+
+		mcrForSpy.assertParameter(ADD_CALL, 0, "userId", "valueUser");
+		mcrForSpy.assertParameter(ADD_CALL, 0, "tsUpdated", "valueUpdated");
 	}
 }
