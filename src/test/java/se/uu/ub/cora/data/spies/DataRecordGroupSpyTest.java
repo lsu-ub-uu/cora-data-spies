@@ -765,4 +765,13 @@ public class DataRecordGroupSpyTest {
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
 	}
+
+	@Test
+	public void removeOverwriteProtection() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+
+		dataRecordGroup.removeOverwriteProtection();
+
+		mcrForSpy.assertParameters(ADD_CALL, 0);
+	}
 }

@@ -348,4 +348,9 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	public boolean overwriteProtectionShouldBeEnforced() {
 		return (boolean) MCR.addCallAndReturnFromMRV();
 	}
+
+	@Override
+	public void removeOverwriteProtection() {
+		MCR.addCall();
+	}
 }
