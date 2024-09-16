@@ -84,23 +84,6 @@ public class DataRecordGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultHasAttributes() throws Exception {
-		assertFalse(dataRecordGroup.hasAttributes());
-	}
-
-	@Test
-	public void testHasAttributes() throws Exception {
-		dataRecordGroup.MCR = MCRSpy;
-		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
-				(Supplier<Boolean>) () -> true);
-
-		boolean retunedValue = dataRecordGroup.hasAttributes();
-
-		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
-		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
-	}
-
-	@Test
 	public void testDefaultGetAttribute() throws Exception {
 		assertTrue(dataRecordGroup.getAttribute("nameInData") instanceof DataAttribute);
 	}
@@ -752,5 +735,34 @@ public class DataRecordGroupSpyTest {
 
 		mcrForSpy.assertParameter(ADD_CALL, 0, "userId", "valueUser");
 		mcrForSpy.assertParameter(ADD_CALL, 0, "tsUpdated", "valueUpdated");
+	}
+
+	@DataProvider(name = "getBoolean")
+	public Object[][] testCasesForGetBoolean() {
+		GetBoolean hasAttributes = new GetBoolean(() -> dataRecordGroup.hasAttributes());
+		GetBoolean overwriteProtectionShouldBeEnforced = new GetBoolean(
+				() -> dataRecordGroup.overwriteProtectionShouldBeEnforced());
+
+		return new GetBoolean[][] { { hasAttributes }, { overwriteProtectionShouldBeEnforced } };
+	}
+
+	public record GetBoolean(Supplier<Boolean> methodToRun) {
+	};
+
+	@Test(dataProvider = "getBoolean")
+	public void testDefaultCaseGetBoolean(GetBoolean testData) throws Exception {
+		assertFalse(testData.methodToRun.get());
+	}
+
+	@Test(dataProvider = "getBoolean")
+	public void testCaseGetBoolean(GetBoolean testData) throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
+				(Supplier<Boolean>) () -> true);
+
+		boolean retunedValue = testData.methodToRun.get();
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
 	}
 }

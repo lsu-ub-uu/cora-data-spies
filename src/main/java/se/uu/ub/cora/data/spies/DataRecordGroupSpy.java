@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.DataAtomic;
 import se.uu.ub.cora.data.DataAttribute;
@@ -41,12 +40,11 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	public DataRecordGroupSpy() {
 		MCR.useMRV(MRV);
 		MRV.setDefaultReturnValuesSupplier("getNameInData", String::new);
-		MRV.setDefaultReturnValuesSupplier("hasAttributes", (Supplier<Boolean>) () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasAttributes", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getAttribute", DataAttributeSpy::new);
 		MRV.setDefaultReturnValuesSupplier("getAttributes", ArrayList<DataAttribute>::new);
-		MRV.setDefaultReturnValuesSupplier("hasChildren", (Supplier<Boolean>) () -> true);
-		MRV.setDefaultReturnValuesSupplier("containsChildWithNameInData",
-				(Supplier<Boolean>) () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasChildren", () -> true);
+		MRV.setDefaultReturnValuesSupplier("containsChildWithNameInData", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getChildren", ArrayList<DataChild>::new);
 		MRV.setDefaultReturnValuesSupplier("getAllChildrenWithNameInData",
 				ArrayList<DataChild>::new);
@@ -63,17 +61,13 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("getAllGroupsWithNameInData", ArrayList<DataGroup>::new);
 		MRV.setDefaultReturnValuesSupplier("getAllGroupsWithNameInDataAndAttributes",
 				ArrayList<DataGroup>::new);
-		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithNameInData",
-				(Supplier<Boolean>) () -> true);
-		MRV.setDefaultReturnValuesSupplier("removeAllChildrenWithNameInData",
-				(Supplier<Boolean>) () -> true);
+		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithNameInData", () -> true);
+		MRV.setDefaultReturnValuesSupplier("removeAllChildrenWithNameInData", () -> true);
 		MRV.setDefaultReturnValuesSupplier("removeAllChildrenWithNameInDataAndAttributes",
-				(Supplier<Boolean>) () -> true);
+				() -> true);
 		MRV.setDefaultReturnValuesSupplier("getAllChildrenMatchingFilter",
 				ArrayList<DataChild>::new);
-		MRV.setDefaultReturnValuesSupplier("removeAllChildrenMatchingFilter",
-				(Supplier<Boolean>) () -> true);
-
+		MRV.setDefaultReturnValuesSupplier("removeAllChildrenMatchingFilter", () -> true);
 		MRV.setDefaultReturnValuesSupplier("containsChildOfTypeAndName", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getFirstChildOfTypeAndName", DataChildSpy::new);
 		MRV.setDefaultReturnValuesSupplier("getChildrenOfTypeAndName",
@@ -81,16 +75,15 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithTypeAndName", () -> false);
 		MRV.setDefaultReturnValuesSupplier("removeChildrenWithTypeAndName", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getAttributeValue", Optional::empty);
-
 		MRV.setDefaultReturnValuesSupplier("getType", String::new);
 		MRV.setDefaultReturnValuesSupplier("getId", String::new);
 		MRV.setDefaultReturnValuesSupplier("getDataDivider", String::new);
 		MRV.setDefaultReturnValuesSupplier("getValidationType", String::new);
-
 		MRV.setDefaultReturnValuesSupplier("getCreatedBy", String::new);
 		MRV.setDefaultReturnValuesSupplier("getTsCreated", String::new);
 		MRV.setDefaultReturnValuesSupplier("getLatestUpdatedBy", String::new);
 		MRV.setDefaultReturnValuesSupplier("getLatestTsUpdated", String::new);
+		MRV.setDefaultReturnValuesSupplier("overwriteProtectionShouldBeEnforced", () -> false);
 	}
 
 	@Override
@@ -349,5 +342,10 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	@Override
 	public void addUpdatedUsingUserIdAndTsNow(String userId) {
 		MCR.addCall("userId", userId);
+	}
+
+	@Override
+	public boolean overwriteProtectionShouldBeEnforced() {
+		return (boolean) MCR.addCallAndReturnFromMRV();
 	}
 }
