@@ -774,4 +774,32 @@ public class DataRecordGroupSpyTest {
 
 		mcrForSpy.assertParameters(ADD_CALL, 0);
 	}
+
+	@Test
+	public void testSetAllUpdated() throws Exception {
+		Collection<DataChild> updated = new ArrayList<>();
+		dataRecordGroup.MCR = MCRSpy;
+
+		dataRecordGroup.setAllUpdated(updated);
+
+		mcrForSpy.assertParameter(ADD_CALL, 0, "updated", updated);
+	}
+
+	@Test
+	public void testDefaultGetAllUpdated() throws Exception {
+		assertTrue(dataRecordGroup.getAllUpdated() instanceof List<DataChild>);
+	}
+
+	@Test
+	public void testGetAllUpdated() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
+				ArrayList<DataChild>::new);
+
+		List<DataChild> retunedValue = dataRecordGroup.getAllUpdated();
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
+	}
+
 }

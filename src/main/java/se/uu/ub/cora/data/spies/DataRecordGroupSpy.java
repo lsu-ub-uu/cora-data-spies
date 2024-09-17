@@ -20,6 +20,7 @@ package se.uu.ub.cora.data.spies;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,6 +84,7 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("getTsCreated", String::new);
 		MRV.setDefaultReturnValuesSupplier("getLatestUpdatedBy", String::new);
 		MRV.setDefaultReturnValuesSupplier("getLatestTsUpdated", String::new);
+		MRV.setDefaultReturnValuesSupplier("getAllUpdated", () -> Collections.emptyList());
 		MRV.setDefaultReturnValuesSupplier("overwriteProtectionShouldBeEnforced", () -> false);
 	}
 
@@ -233,11 +235,13 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends DataChild> T getFirstChildOfTypeAndName(Class<T> type, String name) {
 		return (T) MCR.addCallAndReturnFromMRV("type", type, "name", name);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends DataChild> List<T> getChildrenOfTypeAndName(Class<T> type, String name) {
 		return (List<T>) MCR.addCallAndReturnFromMRV("type", type, "name", name);
@@ -254,6 +258,7 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Optional<String> getAttributeValue(String nameInData) {
 		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
@@ -352,5 +357,16 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	@Override
 	public void removeOverwriteProtection() {
 		MCR.addCall();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<DataChild> getAllUpdated() {
+		return (List<DataChild>) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public void setAllUpdated(Collection<DataChild> updated) {
+		MCR.addCall("updated", updated);
 	}
 }
