@@ -27,7 +27,6 @@ import se.uu.ub.cora.data.DataList;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 
-@SuppressWarnings("exports")
 public class DataListSpy implements DataList {
 	public MethodCallRecorder MCR = new MethodCallRecorder();
 	public MethodReturnValues MRV = new MethodReturnValues();

@@ -38,7 +38,6 @@ import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 import se.uu.ub.cora.testutils.spies.MCRSpy;
 
 public class DataFactorySpyTest {
-	private static final String ADD_CALL = "addCall";
 	private static final String ADD_CALL_AND_RETURN_FROM_MRV = "addCallAndReturnFromMRV";
 	DataFactorySpy dataFactory;
 	private MCRSpy MCRSpy;

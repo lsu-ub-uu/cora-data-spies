@@ -29,7 +29,6 @@ import se.uu.ub.cora.data.DataRecordGroup;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 
-@SuppressWarnings("exports")
 public class DataRecordSpy implements DataRecord {
 	public MethodCallRecorder MCR = new MethodCallRecorder();
 	public MethodReturnValues MRV = new MethodReturnValues();
@@ -62,7 +61,6 @@ public class DataRecordSpy implements DataRecord {
 	@Override
 	public void setDataRecordGroup(DataRecordGroup dataRecordGroup) {
 		MCR.addCall("dataGroup", dataRecordGroup);
-
 	}
 
 	@Override
@@ -108,13 +106,11 @@ public class DataRecordSpy implements DataRecord {
 	@Override
 	public void addWritePermission(String writePermission) {
 		MCR.addCall("writePermission", writePermission);
-
 	}
 
 	@Override
 	public void addWritePermissions(Collection<String> writePermissions) {
 		MCR.addCall("writePermissions", writePermissions);
-
 	}
 
 	@Override

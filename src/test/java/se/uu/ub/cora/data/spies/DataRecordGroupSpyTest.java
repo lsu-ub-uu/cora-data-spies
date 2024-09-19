@@ -244,9 +244,8 @@ public class DataRecordGroupSpyTest {
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "nameInData", "nameInData");
-		Object[] returnValue = (Object[]) mcrForSpy
-				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
-						"childAttributes");
+		Object[] returnValue = (Object[]) mcrForSpy.getParameterForMethodAndCallNumberAndParameter(
+				ADD_CALL_AND_RETURN_FROM_MRV, 0, "childAttributes");
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "childAttributes", returnValue);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
 	}
@@ -345,9 +344,8 @@ public class DataRecordGroupSpyTest {
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "nameInData", "nameInData");
-		Object[] returnValue = (Object[]) mcrForSpy
-				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
-						"childAttributes");
+		Object[] returnValue = (Object[]) mcrForSpy.getParameterForMethodAndCallNumberAndParameter(
+				ADD_CALL_AND_RETURN_FROM_MRV, 0, "childAttributes");
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "childAttributes", returnValue);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
 	}
@@ -408,9 +406,8 @@ public class DataRecordGroupSpyTest {
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "nameInData", "nameInData");
-		Object[] returnValue = (Object[]) mcrForSpy
-				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
-						"childAttributes");
+		Object[] returnValue = (Object[]) mcrForSpy.getParameterForMethodAndCallNumberAndParameter(
+				ADD_CALL_AND_RETURN_FROM_MRV, 0, "childAttributes");
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "childAttributes", returnValue);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
 	}
@@ -470,9 +467,8 @@ public class DataRecordGroupSpyTest {
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "nameInData", "nameInData");
-		Object[] returnValue = (Object[]) mcrForSpy
-				.getValueForMethodNameAndCallNumberAndParameterName(ADD_CALL_AND_RETURN_FROM_MRV, 0,
-						"childAttributes");
+		Object[] returnValue = (Object[]) mcrForSpy.getParameterForMethodAndCallNumberAndParameter(
+				ADD_CALL_AND_RETURN_FROM_MRV, 0, "childAttributes");
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "childAttributes", returnValue);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
 	}
