@@ -32,7 +32,6 @@ import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 
-@SuppressWarnings("exports")
 public class DataGroupSpy implements DataGroup {
 	public MethodCallRecorder MCR = new MethodCallRecorder();
 	public MethodReturnValues MRV = new MethodReturnValues();
@@ -235,7 +234,6 @@ public class DataGroupSpy implements DataGroup {
 
 	@Override
 	public <T extends DataChild> T getFirstChildOfTypeAndName(Class<T> type, String name) {
-
 		return (T) MCR.addCallAndReturnFromMRV("type", type, "name", name);
 	}
 

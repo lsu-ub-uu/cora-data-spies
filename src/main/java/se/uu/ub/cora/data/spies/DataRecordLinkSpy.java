@@ -28,7 +28,6 @@ import se.uu.ub.cora.data.DataRecordLink;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 
-@SuppressWarnings("exports")
 public class DataRecordLinkSpy implements DataRecordLink {
 	public MethodCallRecorder MCR = new MethodCallRecorder();
 	public MethodReturnValues MRV = new MethodReturnValues();

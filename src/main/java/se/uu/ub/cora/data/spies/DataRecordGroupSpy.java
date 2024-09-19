@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Olov McKie
+ * Copyright 2022, 2024 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -20,9 +20,9 @@ package se.uu.ub.cora.data.spies;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.DataAtomic;
 import se.uu.ub.cora.data.DataAttribute;
@@ -33,7 +33,6 @@ import se.uu.ub.cora.data.DataRecordGroup;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 
-@SuppressWarnings("exports")
 public class DataRecordGroupSpy implements DataRecordGroup {
 	public MethodCallRecorder MCR = new MethodCallRecorder();
 	public MethodReturnValues MRV = new MethodReturnValues();
@@ -41,12 +40,11 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	public DataRecordGroupSpy() {
 		MCR.useMRV(MRV);
 		MRV.setDefaultReturnValuesSupplier("getNameInData", String::new);
-		MRV.setDefaultReturnValuesSupplier("hasAttributes", (Supplier<Boolean>) () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasAttributes", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getAttribute", DataAttributeSpy::new);
 		MRV.setDefaultReturnValuesSupplier("getAttributes", ArrayList<DataAttribute>::new);
-		MRV.setDefaultReturnValuesSupplier("hasChildren", (Supplier<Boolean>) () -> true);
-		MRV.setDefaultReturnValuesSupplier("containsChildWithNameInData",
-				(Supplier<Boolean>) () -> false);
+		MRV.setDefaultReturnValuesSupplier("hasChildren", () -> true);
+		MRV.setDefaultReturnValuesSupplier("containsChildWithNameInData", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getChildren", ArrayList<DataChild>::new);
 		MRV.setDefaultReturnValuesSupplier("getAllChildrenWithNameInData",
 				ArrayList<DataChild>::new);
@@ -63,22 +61,13 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("getAllGroupsWithNameInData", ArrayList<DataGroup>::new);
 		MRV.setDefaultReturnValuesSupplier("getAllGroupsWithNameInDataAndAttributes",
 				ArrayList<DataGroup>::new);
-		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithNameInData",
-				(Supplier<Boolean>) () -> true);
-		MRV.setDefaultReturnValuesSupplier("removeAllChildrenWithNameInData",
-				(Supplier<Boolean>) () -> true);
+		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithNameInData", () -> true);
+		MRV.setDefaultReturnValuesSupplier("removeAllChildrenWithNameInData", () -> true);
 		MRV.setDefaultReturnValuesSupplier("removeAllChildrenWithNameInDataAndAttributes",
-				(Supplier<Boolean>) () -> true);
+				() -> true);
 		MRV.setDefaultReturnValuesSupplier("getAllChildrenMatchingFilter",
 				ArrayList<DataChild>::new);
-		MRV.setDefaultReturnValuesSupplier("removeAllChildrenMatchingFilter",
-				(Supplier<Boolean>) () -> true);
-
-		MRV.setDefaultReturnValuesSupplier("getType", String::new);
-		MRV.setDefaultReturnValuesSupplier("getId", String::new);
-		MRV.setDefaultReturnValuesSupplier("getDataDivider", String::new);
-		MRV.setDefaultReturnValuesSupplier("getValidationType", String::new);
-
+		MRV.setDefaultReturnValuesSupplier("removeAllChildrenMatchingFilter", () -> true);
 		MRV.setDefaultReturnValuesSupplier("containsChildOfTypeAndName", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getFirstChildOfTypeAndName", DataChildSpy::new);
 		MRV.setDefaultReturnValuesSupplier("getChildrenOfTypeAndName",
@@ -86,6 +75,16 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithTypeAndName", () -> false);
 		MRV.setDefaultReturnValuesSupplier("removeChildrenWithTypeAndName", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getAttributeValue", Optional::empty);
+		MRV.setDefaultReturnValuesSupplier("getType", String::new);
+		MRV.setDefaultReturnValuesSupplier("getId", String::new);
+		MRV.setDefaultReturnValuesSupplier("getDataDivider", String::new);
+		MRV.setDefaultReturnValuesSupplier("getValidationType", String::new);
+		MRV.setDefaultReturnValuesSupplier("getCreatedBy", String::new);
+		MRV.setDefaultReturnValuesSupplier("getTsCreated", String::new);
+		MRV.setDefaultReturnValuesSupplier("getLatestUpdatedBy", String::new);
+		MRV.setDefaultReturnValuesSupplier("getLatestTsUpdated", String::new);
+		MRV.setDefaultReturnValuesSupplier("getAllUpdated", () -> Collections.emptyList());
+		MRV.setDefaultReturnValuesSupplier("overwriteProtectionShouldBeEnforced", () -> false);
 	}
 
 	@Override
@@ -231,6 +230,40 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	}
 
 	@Override
+	public <T> boolean containsChildOfTypeAndName(Class<T> type, String name) {
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends DataChild> T getFirstChildOfTypeAndName(Class<T> type, String name) {
+		return (T) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends DataChild> List<T> getChildrenOfTypeAndName(Class<T> type, String name) {
+		return (List<T>) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public <T extends DataChild> boolean removeFirstChildWithTypeAndName(Class<T> type,
+			String name) {
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public <T extends DataChild> boolean removeChildrenWithTypeAndName(Class<T> type, String name) {
+		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Optional<String> getAttributeValue(String nameInData) {
+		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
+	}
+
+	@Override
 	public String getType() {
 		return (String) MCR.addCallAndReturnFromMRV();
 	}
@@ -268,37 +301,71 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	@Override
 	public void setValidationType(String validationType) {
 		MCR.addCall("validationType", validationType);
-
 	}
 
 	@Override
-	public <T> boolean containsChildOfTypeAndName(Class<T> type, String name) {
-		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	public String getCreatedBy() {
+		return (String) MCR.addCallAndReturnFromMRV();
 	}
 
 	@Override
-	public <T extends DataChild> T getFirstChildOfTypeAndName(Class<T> type, String name) {
-		return (T) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	public void setCreatedBy(String userId) {
+		MCR.addCall("userId", userId);
 	}
 
 	@Override
-	public <T extends DataChild> List<T> getChildrenOfTypeAndName(Class<T> type, String name) {
-		return (List<T>) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	public String getTsCreated() {
+		return (String) MCR.addCallAndReturnFromMRV();
 	}
 
 	@Override
-	public <T extends DataChild> boolean removeFirstChildWithTypeAndName(Class<T> type,
-			String name) {
-		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	public void setTsCreated(String tsCreated) {
+		MCR.addCall("tsCreated", tsCreated);
 	}
 
 	@Override
-	public <T extends DataChild> boolean removeChildrenWithTypeAndName(Class<T> type, String name) {
-		return (boolean) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	public void setTsCreatedToNow() {
+		MCR.addCall();
 	}
 
 	@Override
-	public Optional<String> getAttributeValue(String nameInData) {
-		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
+	public String getLatestUpdatedBy() {
+		return (String) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public String getLatestTsUpdated() {
+		return (String) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public void addUpdatedUsingUserIdAndTs(String userId, String tsUpdated) {
+		MCR.addCall("userId", userId, "tsUpdated", tsUpdated);
+	}
+
+	@Override
+	public void addUpdatedUsingUserIdAndTsNow(String userId) {
+		MCR.addCall("userId", userId);
+	}
+
+	@Override
+	public boolean overwriteProtectionShouldBeEnforced() {
+		return (boolean) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public void removeOverwriteProtection() {
+		MCR.addCall();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<DataChild> getAllUpdated() {
+		return (List<DataChild>) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public void setAllUpdated(Collection<DataChild> updated) {
+		MCR.addCall("updated", updated);
 	}
 }

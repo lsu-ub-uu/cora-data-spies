@@ -27,8 +27,6 @@ import java.util.function.Supplier;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import se.uu.ub.cora.data.spies.DataChildFilterSpy;
-import se.uu.ub.cora.data.spies.DataChildSpy;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 import se.uu.ub.cora.testutils.spies.MCRSpy;
