@@ -85,6 +85,8 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("getLatestTsUpdated", String::new);
 		MRV.setDefaultReturnValuesSupplier("getAllUpdated", () -> Collections.emptyList());
 		MRV.setDefaultReturnValuesSupplier("overwriteProtectionShouldBeEnforced", () -> false);
+		MRV.setDefaultReturnValuesSupplier("getTsVisibility", String::new);
+		MRV.setDefaultReturnValuesSupplier("getVisibility", () -> false);
 	}
 
 	@Override
@@ -367,5 +369,30 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	@Override
 	public void setAllUpdated(Collection<DataChild> updated) {
 		MCR.addCall("updated", updated);
+	}
+
+	@Override
+	public void setTsVisibility(String tsVisibility) {
+		MCR.addCall("tsVisibility", tsVisibility);
+	}
+
+	@Override
+	public void setVisibility(String visibility) {
+		MCR.addCall("visibility", visibility);
+	}
+
+	@Override
+	public Optional<String> getTsVisibility() {
+		return Optional.of((String) MCR.addCallAndReturnFromMRV());
+	}
+
+	@Override
+	public Optional<String> getVisibility() {
+		return Optional.of((String) MCR.addCallAndReturnFromMRV());
+	}
+
+	@Override
+	public void setTsVisibilityNow() {
+		MCR.addCall();
 	}
 }
