@@ -381,14 +381,16 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MCR.addCall("visibility", visibility);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Optional<String> getTsVisibility() {
-		return Optional.of((String) MCR.addCallAndReturnFromMRV());
+		return (Optional<String>) MCR.addCallAndReturnFromMRV();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Optional<String> getVisibility() {
-		return Optional.of((String) MCR.addCallAndReturnFromMRV());
+		return (Optional<String>) MCR.addCallAndReturnFromMRV();
 	}
 
 	@Override

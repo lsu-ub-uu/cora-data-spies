@@ -798,4 +798,50 @@ public class DataRecordGroupSpyTest {
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
 	}
 
+	@Test
+	public void testSetTsVisibility() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+		dataRecordGroup.setTsVisibility("someTimeStamp");
+		mcrForSpy.assertParameter(ADD_CALL, 0, "tsVisibility", "someTimeStamp");
+	}
+
+	@Test
+	public void testSetVisibility() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+		dataRecordGroup.setVisibility("published");
+		mcrForSpy.assertParameter(ADD_CALL, 0, "visibility", "published");
+	}
+
+	@Test
+	public void testSetVisibilityNow() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+		dataRecordGroup.setTsVisibilityNow();
+		mcrForSpy.assertMethodWasCalled(ADD_CALL);
+	}
+
+	@Test
+	public void testGetTsVisibility() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
+				() -> Optional.of("timestamp"));
+
+		Optional<String> returnedOpional = dataRecordGroup.getTsVisibility();
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedOpional);
+		assertEquals(returnedOpional.get(), "timestamp");
+	}
+
+	@Test
+	public void testGetVisibility() throws Exception {
+		dataRecordGroup.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
+				() -> Optional.of("published"));
+
+		Optional<String> returnedOpional = dataRecordGroup.getVisibility();
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedOpional);
+		assertEquals(returnedOpional.get(), "published");
+	}
 }
