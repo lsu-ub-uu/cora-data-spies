@@ -87,6 +87,7 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("overwriteProtectionShouldBeEnforced", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getTsVisibility", String::new);
 		MRV.setDefaultReturnValuesSupplier("getVisibility", () -> false);
+		MRV.setDefaultReturnValuesSupplier("getPermissionUnit", () -> "somePermissionUnit");
 	}
 
 	@Override
@@ -396,5 +397,15 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	@Override
 	public void setTsVisibilityNow() {
 		MCR.addCall();
+	}
+
+	@Override
+	public String getPermissionUnit() {
+		return (String) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public void setPermissionUnit(String permissionUnit) {
+		MCR.addCall("permissionUnit", permissionUnit);
 	}
 }
