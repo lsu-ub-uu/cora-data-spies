@@ -85,6 +85,9 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("getLatestTsUpdated", String::new);
 		MRV.setDefaultReturnValuesSupplier("getAllUpdated", () -> Collections.emptyList());
 		MRV.setDefaultReturnValuesSupplier("overwriteProtectionShouldBeEnforced", () -> false);
+		MRV.setDefaultReturnValuesSupplier("getTsVisibility", String::new);
+		MRV.setDefaultReturnValuesSupplier("getVisibility", () -> false);
+		MRV.setDefaultReturnValuesSupplier("getPermissionUnit", () -> "somePermissionUnit");
 	}
 
 	@Override
@@ -367,5 +370,42 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	@Override
 	public void setAllUpdated(Collection<DataChild> updated) {
 		MCR.addCall("updated", updated);
+	}
+
+	@Override
+	public void setTsVisibility(String tsVisibility) {
+		MCR.addCall("tsVisibility", tsVisibility);
+	}
+
+	@Override
+	public void setVisibility(String visibility) {
+		MCR.addCall("visibility", visibility);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Optional<String> getTsVisibility() {
+		return (Optional<String>) MCR.addCallAndReturnFromMRV();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Optional<String> getVisibility() {
+		return (Optional<String>) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public void setTsVisibilityNow() {
+		MCR.addCall();
+	}
+
+	@Override
+	public String getPermissionUnit() {
+		return (String) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public void setPermissionUnit(String permissionUnit) {
+		MCR.addCall("permissionUnit", permissionUnit);
 	}
 }
