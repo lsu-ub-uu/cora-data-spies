@@ -83,11 +83,11 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("getTsCreated", String::new);
 		MRV.setDefaultReturnValuesSupplier("getLatestUpdatedBy", String::new);
 		MRV.setDefaultReturnValuesSupplier("getLatestTsUpdated", String::new);
-		MRV.setDefaultReturnValuesSupplier("getAllUpdated", () -> Collections.emptyList());
+		MRV.setDefaultReturnValuesSupplier("getAllUpdated", Collections::emptyList);
 		MRV.setDefaultReturnValuesSupplier("overwriteProtectionShouldBeEnforced", () -> false);
-		MRV.setDefaultReturnValuesSupplier("getTsVisibility", String::new);
-		MRV.setDefaultReturnValuesSupplier("getVisibility", () -> false);
-		MRV.setDefaultReturnValuesSupplier("getPermissionUnit", () -> "somePermissionUnit");
+		MRV.setDefaultReturnValuesSupplier("getTsVisibility", Optional::empty);
+		MRV.setDefaultReturnValuesSupplier("getVisibility", Optional::empty);
+		MRV.setDefaultReturnValuesSupplier("getPermissionUnit", Optional::empty);
 	}
 
 	@Override
@@ -373,19 +373,13 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	}
 
 	@Override
-	public void setTsVisibility(String tsVisibility) {
-		MCR.addCall("tsVisibility", tsVisibility);
-	}
-
-	@Override
 	public void setVisibility(String visibility) {
 		MCR.addCall("visibility", visibility);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public Optional<String> getTsVisibility() {
-		return (Optional<String>) MCR.addCallAndReturnFromMRV();
+	public void setTsVisibility(String tsVisibility) {
+		MCR.addCall("tsVisibility", tsVisibility);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -394,14 +388,21 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		return (Optional<String>) MCR.addCallAndReturnFromMRV();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Optional<String> getTsVisibility() {
+		return (Optional<String>) MCR.addCallAndReturnFromMRV();
+	}
+
 	@Override
 	public void setTsVisibilityNow() {
 		MCR.addCall();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public String getPermissionUnit() {
-		return (String) MCR.addCallAndReturnFromMRV();
+	public Optional<String> getPermissionUnit() {
+		return (Optional<String>) MCR.addCallAndReturnFromMRV();
 	}
 
 	@Override

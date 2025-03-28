@@ -659,15 +659,12 @@ public class DataRecordGroupSpyTest {
 		GetString tsCreated = new GetString(() -> dataRecordGroup.getTsCreated(), "");
 		GetString latestUpdatedBy = new GetString(() -> dataRecordGroup.getLatestUpdatedBy(), "");
 		GetString latesTsUpdated = new GetString(() -> dataRecordGroup.getLatestTsUpdated(), "");
-		GetString permissionUnit = new GetString(() -> dataRecordGroup.getPermissionUnit(),
-				"somePermissionUnit");
 
 		return new GetString[][] { { type }, { id }, { dataDivider }, { validationType },
-				{ createdBy }, { tsCreated }, { latestUpdatedBy }, { latesTsUpdated },
-				{ permissionUnit } };
+				{ createdBy }, { tsCreated }, { latestUpdatedBy }, { latesTsUpdated } };
 	}
 
-	public record GetString(Supplier<String> methodToRun, String defaultValue) {
+	public record GetString(Supplier<Object> methodToRun, Object defaultValue) {
 	}
 
 	@Test(dataProvider = "getString")
@@ -681,7 +678,7 @@ public class DataRecordGroupSpyTest {
 		dataRecordGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> "someValue");
 
-		String returnedValue = testData.methodToRun.get();
+		var returnedValue = testData.methodToRun.get();
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
@@ -700,11 +697,9 @@ public class DataRecordGroupSpyTest {
 				"tsCreated");
 		SetString addUpdatedUserIdNow = new SetString(
 				value -> dataRecordGroup.addUpdatedUsingUserIdAndTsNow(value), "userId");
-		SetString permissionUnit = new SetString(value -> dataRecordGroup.setPermissionUnit(value),
-				"permissionUnit");
 
 		return new SetString[][] { { type }, { id }, { dataDivider }, { validationType },
-				{ createdBy }, { tsCreated }, { addUpdatedUserIdNow }, { permissionUnit } };
+				{ createdBy }, { tsCreated }, { addUpdatedUserIdNow } };
 	}
 
 	public record SetString(Consumer<String> methodToRun, String parameterName) {
@@ -712,6 +707,64 @@ public class DataRecordGroupSpyTest {
 
 	@Test(dataProvider = "setString")
 	public void testSetString(SetString testData) {
+		dataRecordGroup.MCR = MCRSpy;
+
+		testData.methodToRun.accept("someValue");
+
+		mcrForSpy.assertParameter(ADD_CALL, 0, testData.parameterName, "someValue");
+	}
+
+	@DataProvider(name = "getOptional")
+	public Object[][] testCasesForGetOptional() {
+		GetOptional visibility = new GetOptional(() -> dataRecordGroup.getVisibility(),
+				Optional.empty());
+		GetOptional tsVisibility = new GetOptional(() -> dataRecordGroup.getTsVisibility(),
+				Optional.empty());
+		GetOptional permissionUnit = new GetOptional(() -> dataRecordGroup.getPermissionUnit(),
+				Optional.empty());
+
+		return new GetOptional[][] { { visibility }, { tsVisibility }, { permissionUnit } };
+	}
+
+	public record GetOptional(Supplier<Optional<String>> methodToRun,
+			Optional<String> defaultValue) {
+	}
+
+	@Test(dataProvider = "getOptional")
+	public void testGetOptionalDefaultValue(GetOptional testData) {
+		assertTrue(testData.methodToRun.get() instanceof Optional);
+		assertEquals(testData.methodToRun.get(), testData.defaultValue);
+	}
+
+	@Test(dataProvider = "getOptional")
+	public void testGetOptional(GetOptional testData) {
+		dataRecordGroup.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
+				() -> Optional.of("someValue"));
+
+		var returnedValue = testData.methodToRun.get();
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
+
+	@DataProvider(name = "setOptional")
+	public Object[][] testCasesForSetOptional() {
+		SetOptional visibility = new SetOptional(value -> dataRecordGroup.setVisibility(value),
+				"visibility");
+		SetOptional tsVisibility = new SetOptional(value -> dataRecordGroup.setTsVisibility(value),
+				"tsVisibility");
+		SetOptional permissionUnit = new SetOptional(
+				value -> dataRecordGroup.setPermissionUnit(value), "permissionUnit");
+
+		return new SetOptional[][] { { visibility }, { tsVisibility }, { permissionUnit } };
+	}
+
+	public record SetOptional(Consumer<String> methodToRun, String parameterName) {
+	}
+
+	@Test(dataProvider = "setOptional")
+	public void testSetOptional(SetOptional testData) {
 		dataRecordGroup.MCR = MCRSpy;
 
 		testData.methodToRun.accept("someValue");
@@ -804,49 +857,9 @@ public class DataRecordGroupSpyTest {
 	}
 
 	@Test
-	public void testSetTsVisibility() {
-		dataRecordGroup.MCR = MCRSpy;
-		dataRecordGroup.setTsVisibility("someTimeStamp");
-		mcrForSpy.assertParameter(ADD_CALL, 0, "tsVisibility", "someTimeStamp");
-	}
-
-	@Test
-	public void testSetVisibility() {
-		dataRecordGroup.MCR = MCRSpy;
-		dataRecordGroup.setVisibility("published");
-		mcrForSpy.assertParameter(ADD_CALL, 0, "visibility", "published");
-	}
-
-	@Test
 	public void testSetVisibilityNow() {
 		dataRecordGroup.MCR = MCRSpy;
 		dataRecordGroup.setTsVisibilityNow();
 		mcrForSpy.assertMethodWasCalled(ADD_CALL);
-	}
-
-	@Test
-	public void testGetTsVisibility() {
-		dataRecordGroup.MCR = MCRSpy;
-		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
-				() -> Optional.of("timestamp"));
-
-		Optional<String> returnedOpional = dataRecordGroup.getTsVisibility();
-
-		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
-		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedOpional);
-		assertEquals(returnedOpional.get(), "timestamp");
-	}
-
-	@Test
-	public void testGetVisibility() {
-		dataRecordGroup.MCR = MCRSpy;
-		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
-				() -> Optional.of("published"));
-
-		Optional<String> returnedOpional = dataRecordGroup.getVisibility();
-
-		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
-		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedOpional);
-		assertEquals(returnedOpional.get(), "published");
 	}
 }
