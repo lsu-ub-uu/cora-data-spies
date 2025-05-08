@@ -72,6 +72,7 @@ public class DataGroupSpy implements DataGroup {
 
 		MRV.setDefaultReturnValuesSupplier("containsChildOfTypeAndName", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getFirstChildOfTypeAndName", DataChildSpy::new);
+		MRV.setDefaultReturnValuesSupplier("getChildrenOfType", ArrayList<DataChildSpy>::new);
 		MRV.setDefaultReturnValuesSupplier("getChildrenOfTypeAndName",
 				ArrayList<DataChildSpy>::new);
 		MRV.setDefaultReturnValuesSupplier("removeFirstChildWithTypeAndName", () -> false);
@@ -235,6 +236,11 @@ public class DataGroupSpy implements DataGroup {
 	@Override
 	public <T extends DataChild> T getFirstChildOfTypeAndName(Class<T> type, String name) {
 		return (T) MCR.addCallAndReturnFromMRV("type", type, "name", name);
+	}
+
+	@Override
+	public <T extends DataChild> List<T> getChildrenOfType(Class<T> type) {
+		return (List<T>) MCR.addCallAndReturnFromMRV("type", type);
 	}
 
 	@Override

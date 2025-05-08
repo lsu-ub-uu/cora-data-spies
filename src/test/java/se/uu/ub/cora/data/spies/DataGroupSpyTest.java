@@ -57,14 +57,14 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testMakeSureSpyHelpersAreSetUp() throws Exception {
+	public void testMakeSureSpyHelpersAreSetUp() {
 		assertTrue(dataGroup.MCR instanceof MethodCallRecorder);
 		assertTrue(dataGroup.MRV instanceof MethodReturnValues);
 		assertSame(dataGroup.MCR.onlyForTestGetMRV(), dataGroup.MRV);
 	}
 
 	@Test
-	public void testAddChildNoSpy() throws Exception {
+	public void testAddChildNoSpy() {
 		DataChildSpy dataChild = new DataChildSpy();
 		dataGroup.addChild(dataChild);
 
@@ -72,7 +72,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testSetRepeatId() throws Exception {
+	public void testSetRepeatId() {
 		dataGroup.MCR = MCRSpy;
 
 		dataGroup.setRepeatId("repeat1");
@@ -81,17 +81,17 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetRepeatId() throws Exception {
+	public void testDefaultGetRepeatId() {
 		assertTrue(dataGroup.getRepeatId() instanceof String);
 	}
 
 	@Test
-	public void testDefaultHasRepeatId() throws Exception {
+	public void testDefaultHasRepeatId() {
 		assertFalse(dataGroup.hasRepeatId());
 	}
 
 	@Test
-	public void testHasRepeatId() throws Exception {
+	public void testHasRepeatId() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> true);
 
@@ -102,7 +102,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testGetRepeatId() throws Exception {
+	public void testGetRepeatId() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, String::new);
 
@@ -113,7 +113,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testAddAttributeByIdWithValue() throws Exception {
+	public void testAddAttributeByIdWithValue() {
 		dataGroup.MCR = MCRSpy;
 
 		dataGroup.addAttributeByIdWithValue("attribId", "attribValue");
@@ -123,12 +123,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultHasAttributes() throws Exception {
+	public void testDefaultHasAttributes() {
 		assertFalse(dataGroup.hasAttributes());
 	}
 
 	@Test
-	public void testHasAttributes() throws Exception {
+	public void testHasAttributes() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				(Supplier<Boolean>) () -> true);
@@ -140,12 +140,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAttribute() throws Exception {
+	public void testDefaultGetAttribute() {
 		assertTrue(dataGroup.getAttribute("nameInData") instanceof DataAttribute);
 	}
 
 	@Test
-	public void testGetAttribute() throws Exception {
+	public void testGetAttribute() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				DataAttributeSpy::new);
@@ -158,12 +158,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAttributes() throws Exception {
+	public void testDefaultGetAttributes() {
 		assertTrue(dataGroup.getAttributes() instanceof Collection<DataAttribute>);
 	}
 
 	@Test
-	public void testGetAttributes() throws Exception {
+	public void testGetAttributes() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				ArrayList<DataAttribute>::new);
@@ -175,12 +175,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetNameInData() throws Exception {
+	public void testDefaultGetNameInData() {
 		assertTrue(dataGroup.getNameInData() instanceof String);
 	}
 
 	@Test
-	public void testGetNameInData() throws Exception {
+	public void testGetNameInData() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, String::new);
 
@@ -191,12 +191,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultHasChildren() throws Exception {
+	public void testDefaultHasChildren() {
 		assertTrue(dataGroup.hasChildren());
 	}
 
 	@Test
-	public void testHasChildren() throws Exception {
+	public void testHasChildren() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				(Supplier<Boolean>) () -> false);
@@ -208,12 +208,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultContainsChildWithNameInData() throws Exception {
+	public void testDefaultContainsChildWithNameInData() {
 		assertFalse(dataGroup.containsChildWithNameInData("nameInData"));
 	}
 
 	@Test
-	public void testContainsChildWithNameInData() throws Exception {
+	public void testContainsChildWithNameInData() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				(Supplier<Boolean>) () -> false);
@@ -226,7 +226,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testAddChild() throws Exception {
+	public void testAddChild() {
 		DataChildSpy dataChild = new DataChildSpy();
 		dataGroup.MCR = MCRSpy;
 
@@ -236,7 +236,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testAddChildren() throws Exception {
+	public void testAddChildren() {
 		Collection<DataChild> children = new ArrayList<>();
 		dataGroup.MCR = MCRSpy;
 
@@ -246,12 +246,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetChildren() throws Exception {
+	public void testDefaultGetChildren() {
 		assertTrue(dataGroup.getChildren() instanceof List<DataChild>);
 	}
 
 	@Test
-	public void testGetChildren() throws Exception {
+	public void testGetChildren() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				ArrayList<DataChild>::new);
@@ -263,12 +263,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAllChildrenWithNameInData() throws Exception {
+	public void testDefaultGetAllChildrenWithNameInData() {
 		assertTrue(dataGroup.getAllChildrenWithNameInData("nameInData") instanceof List<DataChild>);
 	}
 
 	@Test
-	public void testGetAllChildrenWithNameInData() throws Exception {
+	public void testGetAllChildrenWithNameInData() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				ArrayList<DataChild>::new);
@@ -281,14 +281,14 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAllChildrenWithNameInDataAndAttributes() throws Exception {
+	public void testDefaultGetAllChildrenWithNameInDataAndAttributes() {
 		DataAttribute dataAttribute = new DataAttributeSpy();
 		assertTrue(dataGroup.getAllChildrenWithNameInDataAndAttributes("nameInData",
 				dataAttribute) instanceof List<DataChild>);
 	}
 
 	@Test
-	public void testGetAllChildrenWithNameInDataAndAttributes() throws Exception {
+	public void testGetAllChildrenWithNameInDataAndAttributes() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				ArrayList<DataChild>::new);
@@ -306,12 +306,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetFirstChildWithNameInData() throws Exception {
+	public void testDefaultGetFirstChildWithNameInData() {
 		assertTrue(dataGroup.getFirstChildWithNameInData("nameInData") instanceof DataChildSpy);
 	}
 
 	@Test
-	public void testGetFirstChildWithNameInData() throws Exception {
+	public void testGetFirstChildWithNameInData() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, DataChildSpy::new);
 
@@ -323,12 +323,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetFirstAtomicValueWithNameInData() throws Exception {
+	public void testDefaultGetFirstAtomicValueWithNameInData() {
 		assertTrue(dataGroup.getFirstAtomicValueWithNameInData("nameInData") instanceof String);
 	}
 
 	@Test
-	public void testGetFirstAtomicValueWithNameInData() throws Exception {
+	public void testGetFirstAtomicValueWithNameInData() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, String::new);
 
@@ -341,13 +341,13 @@ public class DataGroupSpyTest {
 
 	// TODO
 	@Test
-	public void testDefaultGetFirstDataAtomicWithNameInData() throws Exception {
+	public void testDefaultGetFirstDataAtomicWithNameInData() {
 		assertTrue(
 				dataGroup.getFirstDataAtomicWithNameInData("nameInData") instanceof DataAtomicSpy);
 	}
 
 	@Test
-	public void testGetFirstDataAtomicWithNameInData() throws Exception {
+	public void testGetFirstDataAtomicWithNameInData() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, DataAtomicSpy::new);
 
@@ -359,13 +359,13 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAllDataAtomicsWithNameInData() throws Exception {
+	public void testDefaultGetAllDataAtomicsWithNameInData() {
 		assertTrue(dataGroup
 				.getAllDataAtomicsWithNameInData("nameInData") instanceof List<DataAtomic>);
 	}
 
 	@Test
-	public void testGetAllDataAtomicsWithNameInData() throws Exception {
+	public void testGetAllDataAtomicsWithNameInData() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				ArrayList<DataAtomic>::new);
@@ -378,14 +378,14 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAllDataAtomicsWithNameInDataAndAttributes() throws Exception {
+	public void testDefaultGetAllDataAtomicsWithNameInDataAndAttributes() {
 		DataAttribute dataAttribute = new DataAttributeSpy();
 		assertTrue(dataGroup.getAllDataAtomicsWithNameInDataAndAttributes("nameInData",
 				dataAttribute) instanceof List<DataAtomic>);
 	}
 
 	@Test
-	public void testGetAllDataAtomicsWithNameInDataAndAttributes() throws Exception {
+	public void testGetAllDataAtomicsWithNameInDataAndAttributes() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				ArrayList<DataAtomic>::new);
@@ -403,12 +403,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetFirstGroupWithNameInData() throws Exception {
+	public void testDefaultGetFirstGroupWithNameInData() {
 		assertTrue(dataGroup.getFirstGroupWithNameInData("nameInData") instanceof DataGroupSpy);
 	}
 
 	@Test
-	public void testGetFirstGroupWithNameInData() throws Exception {
+	public void testGetFirstGroupWithNameInData() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, DataGroupSpy::new);
 
@@ -420,13 +420,13 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAllGroupsWithNameInData() throws Exception {
+	public void testDefaultGetAllGroupsWithNameInData() {
 		assertTrue(dataGroup
 				.getAllGroupsWithNameInData("nameInData") instanceof Collection<DataGroup>);
 	}
 
 	@Test
-	public void testGetAllGroupsWithNameInData() throws Exception {
+	public void testGetAllGroupsWithNameInData() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				ArrayList<DataAtomic>::new);
@@ -439,14 +439,14 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAllGroupsWithNameInDataAndAttributes() throws Exception {
+	public void testDefaultGetAllGroupsWithNameInDataAndAttributes() {
 		DataAttribute dataAttribute = new DataAttributeSpy();
 		assertTrue(dataGroup.getAllGroupsWithNameInDataAndAttributes("nameInData",
 				dataAttribute) instanceof Collection<DataGroup>);
 	}
 
 	@Test
-	public void testGetAllGroupsWithNameInDataAndAttributes() throws Exception {
+	public void testGetAllGroupsWithNameInDataAndAttributes() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				ArrayList<DataAtomic>::new);
@@ -464,12 +464,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultRemoveFirstChildWithNameInData() throws Exception {
+	public void testDefaultRemoveFirstChildWithNameInData() {
 		assertTrue(dataGroup.removeFirstChildWithNameInData("nameInData"));
 	}
 
 	@Test
-	public void testRemoveFirstChildWithNameInData() throws Exception {
+	public void testRemoveFirstChildWithNameInData() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				(Supplier<Boolean>) () -> false);
@@ -482,12 +482,12 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultRemoveAllChildrenWithNameInData() throws Exception {
+	public void testDefaultRemoveAllChildrenWithNameInData() {
 		assertTrue(dataGroup.removeAllChildrenWithNameInData("nameInData"));
 	}
 
 	@Test
-	public void testRemoveAllChildrenWithNameInData() throws Exception {
+	public void testRemoveAllChildrenWithNameInData() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				(Supplier<Boolean>) () -> false);
@@ -500,14 +500,14 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultRemoveAllChildrenWithNameInDataAndAttributes() throws Exception {
+	public void testDefaultRemoveAllChildrenWithNameInDataAndAttributes() {
 		DataAttribute dataAttribute = new DataAttributeSpy();
 		assertTrue(dataGroup.removeAllChildrenWithNameInDataAndAttributes("nameInData",
 				dataAttribute));
 	}
 
 	@Test
-	public void testRemoveAllChildrenWithNameInDataAndAttributes() throws Exception {
+	public void testRemoveAllChildrenWithNameInDataAndAttributes() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				(Supplier<Boolean>) () -> false);
@@ -525,13 +525,13 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAllChildrenMatchingFilter() throws Exception {
+	public void testDefaultGetAllChildrenMatchingFilter() {
 		DataChildFilter childFilter = new DataChildFilterSpy();
 		assertTrue(dataGroup.getAllChildrenMatchingFilter(childFilter) instanceof List<DataChild>);
 	}
 
 	@Test
-	public void testGetAllChildrenMatchingFilter() throws Exception {
+	public void testGetAllChildrenMatchingFilter() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				ArrayList<DataChildFilter>::new);
@@ -546,13 +546,13 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultRemoveAllChildrenMatchingFilter() throws Exception {
+	public void testDefaultRemoveAllChildrenMatchingFilter() {
 		DataChildFilter childFilter = new DataChildFilterSpy();
 		assertTrue(dataGroup.removeAllChildrenMatchingFilter(childFilter));
 	}
 
 	@Test
-	public void testRemoveAllChildrenMatchingFilter() throws Exception {
+	public void testRemoveAllChildrenMatchingFilter() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				(Supplier<Boolean>) () -> false);
@@ -566,7 +566,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultContainsChildWithName() throws Exception {
+	public void testDefaultContainsChildWithName() {
 		Class<DataChild> type = DataChild.class;
 		String name = "name";
 
@@ -576,7 +576,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testContainsChildWithName() throws Exception {
+	public void testContainsChildWithName() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> true);
 		Class<DataChild> type = DataChild.class;
@@ -591,7 +591,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetFirstChildOfTypeWithNameAndAttributes() throws Exception {
+	public void testDefaultGetFirstChildOfTypeWithNameAndAttributes() {
 		Class<DataChild> type = DataChild.class;
 		String name = "name";
 
@@ -601,7 +601,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testGetFirstChildOfTypeWithNameAndAttributes() throws Exception {
+	public void testGetFirstChildOfTypeWithNameAndAttributes() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				DataRecordLinkSpy::new);
@@ -618,7 +618,32 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetChildrenOfTypeWithNameAndAttributes() throws Exception {
+	public void testDefaultGetChildrenOfType() {
+		Class<DataChild> type = DataChild.class;
+
+		List<DataChild> returnedValue = dataGroup.getChildrenOfType(type);
+
+		assertTrue(returnedValue instanceof List<DataChild>);
+	}
+
+	@Test
+	public void testGetChildrenOfType() {
+		dataGroup.MCR = MCRSpy;
+		List<DataRecordLinkSpy> listOfLinks = List.of(new DataRecordLinkSpy());
+
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> listOfLinks);
+
+		Class<DataRecordLinkSpy> type = DataRecordLinkSpy.class;
+
+		List<DataRecordLinkSpy> returnedValue = dataGroup.getChildrenOfType(type);
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "type", type);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
+
+	@Test
+	public void testDefaultGetChildrenOfTypeWithNameAndAttributes() {
 		Class<DataChild> type = DataChild.class;
 		String name = "name";
 
@@ -628,7 +653,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testGetChildrenOfTypeWithNameAndAttributes() throws Exception {
+	public void testGetChildrenOfTypeWithNameAndAttributes() {
 		dataGroup.MCR = MCRSpy;
 		List<DataRecordLinkSpy> listOfLinks = List.of(new DataRecordLinkSpy());
 
@@ -646,7 +671,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultRemoveFirstChildWithTypeNameAndAttributes() throws Exception {
+	public void testDefaultRemoveFirstChildWithTypeNameAndAttributes() {
 		Class<DataChild> type = DataChild.class;
 		String name = "name";
 
@@ -656,7 +681,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testRemoveFirstChildWithTypeNameAndAttributes() throws Exception {
+	public void testRemoveFirstChildWithTypeNameAndAttributes() {
 		dataGroup.MCR = MCRSpy;
 
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> true);
@@ -673,7 +698,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultRemoveChildrenWithTypeNameAndAttributes() throws Exception {
+	public void testDefaultRemoveChildrenWithTypeNameAndAttributes() {
 		Class<DataChild> type = DataChild.class;
 		String name = "name";
 
@@ -683,7 +708,7 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testRemoveFirstChildrenWithTypeNameAndAttributes() throws Exception {
+	public void testRemoveFirstChildrenWithTypeNameAndAttributes() {
 		dataGroup.MCR = MCRSpy;
 
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> true);
@@ -700,14 +725,14 @@ public class DataGroupSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAttributeValue() throws Exception {
+	public void testDefaultGetAttributeValue() {
 		Optional<String> returnedValue = dataGroup.getAttributeValue("someNameInData");
 
 		assertTrue(returnedValue.isEmpty());
 	}
 
 	@Test
-	public void testGetAttributeValue() throws Exception {
+	public void testGetAttributeValue() {
 		dataGroup.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				() -> Optional.of("someValueToReturn"));
