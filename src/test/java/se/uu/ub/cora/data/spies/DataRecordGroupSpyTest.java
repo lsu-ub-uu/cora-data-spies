@@ -559,6 +559,31 @@ public class DataRecordGroupSpyTest {
 	}
 
 	@Test
+	public void testDefaultGetChildrenOfType() {
+		Class<DataChild> type = DataChild.class;
+
+		List<DataChild> returnedValue = dataRecordGroup.getChildrenOfType(type);
+
+		assertTrue(returnedValue instanceof List<DataChild>);
+	}
+
+	@Test
+	public void testGetChildrenOfType() {
+		dataRecordGroup.MCR = MCRSpy;
+		List<DataRecordLinkSpy> listOfLinks = List.of(new DataRecordLinkSpy());
+
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> listOfLinks);
+
+		Class<DataRecordLinkSpy> type = DataRecordLinkSpy.class;
+
+		List<DataRecordLinkSpy> returnedValue = dataRecordGroup.getChildrenOfType(type);
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "type", type);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
+
+	@Test
 	public void testGetChildrenOfTypeAndName() {
 		dataRecordGroup.MCR = MCRSpy;
 		List<DataRecordLinkSpy> listOfLinks = List.of(new DataRecordLinkSpy());

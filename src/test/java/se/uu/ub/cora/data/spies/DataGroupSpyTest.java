@@ -339,7 +339,6 @@ public class DataGroupSpyTest {
 		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
 	}
 
-	// TODO
 	@Test
 	public void testDefaultGetFirstDataAtomicWithNameInData() {
 		assertTrue(
