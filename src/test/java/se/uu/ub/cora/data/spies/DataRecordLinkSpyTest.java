@@ -1,4 +1,5 @@
 /*
+ * Copyright 2025 Uppsala University Library
  * Copyright 2022 Olov McKie
  *
  * This file is part of Cora.
@@ -33,6 +34,7 @@ import org.testng.annotations.Test;
 
 import se.uu.ub.cora.data.Action;
 import se.uu.ub.cora.data.DataAttribute;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 import se.uu.ub.cora.testutils.spies.MCRSpy;
@@ -52,14 +54,14 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testMakeSureSpyHelpersAreSetUp() throws Exception {
+	public void testMakeSureSpyHelpersAreSetUp() {
 		assertTrue(dataRecordLink.MCR instanceof MethodCallRecorder);
 		assertTrue(dataRecordLink.MRV instanceof MethodReturnValues);
 		assertSame(dataRecordLink.MCR.onlyForTestGetMRV(), dataRecordLink.MRV);
 	}
 
 	@Test
-	public void testAddAction() throws Exception {
+	public void testAddAction() {
 		dataRecordLink.MCR = MCRSpy;
 
 		dataRecordLink.addAction(Action.CREATE);
@@ -68,12 +70,12 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testDefaultHasReadAction() throws Exception {
+	public void testDefaultHasReadAction() {
 		assertFalse(dataRecordLink.hasReadAction());
 	}
 
 	@Test
-	public void testHasReadAction() throws Exception {
+	public void testHasReadAction() {
 		dataRecordLink.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				(Supplier<Boolean>) () -> true);
@@ -85,12 +87,12 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testDefaultHasRepeatId() throws Exception {
+	public void testDefaultHasRepeatId() {
 		assertFalse(dataRecordLink.hasRepeatId());
 	}
 
 	@Test
-	public void testHasRepeatId() throws Exception {
+	public void testHasRepeatId() {
 		dataRecordLink.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, () -> true);
 
@@ -101,7 +103,7 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testSetRepeatId() throws Exception {
+	public void testSetRepeatId() {
 		dataRecordLink.MCR = MCRSpy;
 
 		dataRecordLink.setRepeatId("repeat1");
@@ -110,12 +112,12 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetRepeatId() throws Exception {
+	public void testDefaultGetRepeatId() {
 		assertTrue(dataRecordLink.getRepeatId() instanceof String);
 	}
 
 	@Test
-	public void testGetRepeatId() throws Exception {
+	public void testGetRepeatId() {
 		dataRecordLink.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, String::new);
 
@@ -126,12 +128,12 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetNameInData() throws Exception {
+	public void testDefaultGetNameInData() {
 		assertTrue(dataRecordLink.getNameInData() instanceof String);
 	}
 
 	@Test
-	public void testGetNameInData() throws Exception {
+	public void testGetNameInData() {
 		dataRecordLink.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, String::new);
 
@@ -142,7 +144,7 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testAddAttributeByIdWithValue() throws Exception {
+	public void testAddAttributeByIdWithValue() {
 		dataRecordLink.MCR = MCRSpy;
 
 		dataRecordLink.addAttributeByIdWithValue("attribId", "attribValue");
@@ -152,12 +154,12 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testDefaultHasAttributes() throws Exception {
+	public void testDefaultHasAttributes() {
 		assertFalse(dataRecordLink.hasAttributes());
 	}
 
 	@Test
-	public void testHasAttributes() throws Exception {
+	public void testHasAttributes() {
 		dataRecordLink.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				(Supplier<Boolean>) () -> true);
@@ -169,12 +171,12 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAttribute() throws Exception {
+	public void testDefaultGetAttribute() {
 		assertTrue(dataRecordLink.getAttribute("nameInData") instanceof DataAttribute);
 	}
 
 	@Test
-	public void testGetAttribute() throws Exception {
+	public void testGetAttribute() {
 		dataRecordLink.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				DataAttributeSpy::new);
@@ -187,12 +189,12 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAttributes() throws Exception {
+	public void testDefaultGetAttributes() {
 		assertTrue(dataRecordLink.getAttributes() instanceof Collection<DataAttribute>);
 	}
 
 	@Test
-	public void testGetAttributes() throws Exception {
+	public void testGetAttributes() {
 		dataRecordLink.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				ArrayList<DataAttribute>::new);
@@ -204,12 +206,12 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetLinkedRecordId() throws Exception {
+	public void testDefaultGetLinkedRecordId() {
 		assertTrue(dataRecordLink.getLinkedRecordId() instanceof String);
 	}
 
 	@Test
-	public void testGetLinkedRecordId() throws Exception {
+	public void testGetLinkedRecordId() {
 		dataRecordLink.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, String::new);
 
@@ -220,12 +222,12 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetLinkedRecordType() throws Exception {
+	public void testDefaultGetLinkedRecordType() {
 		assertTrue(dataRecordLink.getLinkedRecordType() instanceof String);
 	}
 
 	@Test
-	public void testGetLinkedRecordType() throws Exception {
+	public void testGetLinkedRecordType() {
 		dataRecordLink.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, String::new);
 
@@ -236,7 +238,7 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testDefaultGetAttributeValue() throws Exception {
+	public void testDefaultGetAttributeValue() {
 
 		Optional<String> returnedValue = dataRecordLink.getAttributeValue("someNameInData");
 
@@ -244,7 +246,7 @@ public class DataRecordLinkSpyTest {
 	}
 
 	@Test
-	public void testGetAttributeValue() throws Exception {
+	public void testGetAttributeValue() {
 		dataRecordLink.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				() -> Optional.of("someValueToReturn"));
@@ -254,5 +256,36 @@ public class DataRecordLinkSpyTest {
 		assertTrue(returnedValue.isPresent());
 		assertEquals(returnedValue.get(), "someValueToReturn");
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "nameInData", "someNameInData");
+	}
+
+	@Test
+	public void testSetLinkedRedord() {
+		dataRecordLink.MCR = MCRSpy;
+
+		DataGroupSpy group = new DataGroupSpy();
+		dataRecordLink.setLinkedRecord(group);
+
+		mcrForSpy.assertParameter(ADD_CALL, 0, "group", group);
+	}
+
+	@Test
+	public void testDefaultGetLinkedRecord() {
+
+		Optional<DataGroup> returnedValue = dataRecordLink.getLinkedRecord();
+
+		assertTrue(returnedValue.isEmpty());
+	}
+
+	@Test
+	public void testGetLinkedRecord() {
+		dataRecordLink.MCR = MCRSpy;
+		DataGroupSpy group = new DataGroupSpy();
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
+				() -> Optional.of(group));
+
+		Optional<DataGroup> returnedValue = dataRecordLink.getLinkedRecord();
+
+		assertTrue(returnedValue.isPresent());
+		assertEquals(returnedValue.get(), group);
 	}
 }

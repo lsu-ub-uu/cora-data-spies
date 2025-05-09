@@ -1,4 +1,5 @@
 /*
+ * Copyright 2025 Uppsala University Library
  * Copyright 2022 Olov McKie
  *
  * This file is part of Cora.
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 import se.uu.ub.cora.data.Action;
 import se.uu.ub.cora.data.DataAttribute;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.data.DataRecordLink;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
@@ -44,6 +46,7 @@ public class DataRecordLinkSpy implements DataRecordLink {
 		MRV.setDefaultReturnValuesSupplier("getLinkedRecordId", String::new);
 		MRV.setDefaultReturnValuesSupplier("getLinkedRecordType", String::new);
 		MRV.setDefaultReturnValuesSupplier("getAttributeValue", Optional::empty);
+		MRV.setDefaultReturnValuesSupplier("getLinkedRecord", Optional::empty);
 	}
 
 	@Override
@@ -109,6 +112,16 @@ public class DataRecordLinkSpy implements DataRecordLink {
 	@Override
 	public Optional<String> getAttributeValue(String nameInData) {
 		return (Optional<String>) MCR.addCallAndReturnFromMRV("nameInData", nameInData);
+	}
+
+	@Override
+	public void setLinkedRecord(DataGroup group) {
+		MCR.addCall("group", group);
+	}
+
+	@Override
+	public Optional<DataGroup> getLinkedRecord() {
+		return (Optional<DataGroup>) MCR.addCallAndReturnFromMRV();
 	}
 
 }
