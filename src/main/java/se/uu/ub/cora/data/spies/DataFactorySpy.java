@@ -107,9 +107,9 @@ public class DataFactorySpy implements DataFactory {
 
 	@Override
 	public DataResourceLink factorResourceLinkUsingNameInDataAndMimeType(String nameInData,
-			String mimeType) {
-		return (DataResourceLink) MCR.addCallAndReturnFromMRV("nameInData", nameInData, "mimeType",
-				mimeType);
+			String type, String id, String mimeType) {
+		return (DataResourceLink) MCR.addCallAndReturnFromMRV("nameInData", nameInData,
+				"recordType", type, "recordId", id, "mimeType", mimeType);
 	}
 
 	@Override
@@ -134,5 +134,4 @@ public class DataFactorySpy implements DataFactory {
 	public DataChildFilter factorDataChildFilterUsingNameInData(String childNameInData) {
 		return (DataChildFilter) MCR.addCallAndReturnFromMRV("childNameInData", childNameInData);
 	}
-
 }
