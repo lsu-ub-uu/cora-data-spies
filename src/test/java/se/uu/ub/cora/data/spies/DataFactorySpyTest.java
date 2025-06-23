@@ -218,7 +218,7 @@ public class DataFactorySpyTest {
 
 	@Test
 	public void testDefaultFactorResourceLinkUsingNameInData() {
-		assertTrue(dataFactory.factorResourceLinkUsingNameInDataAndMimeType("nameInData",
+		assertTrue(dataFactory.factorResourceLinkUsingNameInDataAndTypeAndIdAndMimeType("nameInData",
 				"someType", "someId", "someMimeType") instanceof DataResourceLinkSpy);
 	}
 
@@ -228,7 +228,7 @@ public class DataFactorySpyTest {
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				DataResourceLinkSpy::new);
 
-		DataResourceLink retunedValue = dataFactory.factorResourceLinkUsingNameInDataAndMimeType(
+		DataResourceLink retunedValue = dataFactory.factorResourceLinkUsingNameInDataAndTypeAndIdAndMimeType(
 				"nameInData", "someType", "someId", "someMimeType");
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
