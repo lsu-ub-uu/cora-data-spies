@@ -51,7 +51,8 @@ public class DataFactorySpy implements DataFactory {
 				DataRecordLinkSpy::new);
 		MRV.setDefaultReturnValuesSupplier("factorRecordLinkUsingNameInDataAndTypeAndId",
 				DataRecordLinkSpy::new);
-		MRV.setDefaultReturnValuesSupplier("factorResourceLinkUsingNameInDataAndMimeType",
+		MRV.setDefaultReturnValuesSupplier(
+				"factorResourceLinkUsingNameInDataAndTypeAndIdAndMimeType",
 				DataResourceLinkSpy::new);
 		MRV.setDefaultReturnValuesSupplier("factorAtomicUsingNameInDataAndValue",
 				DataAtomicSpy::new);
@@ -106,8 +107,8 @@ public class DataFactorySpy implements DataFactory {
 	}
 
 	@Override
-	public DataResourceLink factorResourceLinkUsingNameInDataAndMimeType(String nameInData,
-			String type, String id, String mimeType) {
+	public DataResourceLink factorResourceLinkUsingNameInDataAndTypeAndIdAndMimeType(
+			String nameInData, String type, String id, String mimeType) {
 		return (DataResourceLink) MCR.addCallAndReturnFromMRV("nameInData", nameInData,
 				"recordType", type, "recordId", id, "mimeType", mimeType);
 	}
