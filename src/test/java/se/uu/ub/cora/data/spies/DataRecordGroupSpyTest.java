@@ -745,14 +745,16 @@ public class DataRecordGroupSpyTest {
 				Optional.empty());
 		GetOptional tsVisibility = new GetOptional(() -> dataRecordGroup.getTsVisibility(),
 				Optional.empty());
+		GetOptional isInTrashBin = new GetOptional(() -> dataRecordGroup.isInTrashBin(),
+				Optional.empty());
 		GetOptional permissionUnit = new GetOptional(() -> dataRecordGroup.getPermissionUnit(),
 				Optional.empty());
 
-		return new GetOptional[][] { { visibility }, { tsVisibility }, { permissionUnit } };
+		return new GetOptional[][] { { visibility }, { tsVisibility }, { isInTrashBin },
+				{ permissionUnit } };
 	}
 
-	public record GetOptional(Supplier<Optional<String>> methodToRun,
-			Optional<String> defaultValue) {
+	public record GetOptional(Supplier<Optional<?>> methodToRun, Optional<String> defaultValue) {
 	}
 
 	@Test(dataProvider = "getOptional")
@@ -886,5 +888,14 @@ public class DataRecordGroupSpyTest {
 		dataRecordGroup.MCR = MCRSpy;
 		dataRecordGroup.setTsVisibilityNow();
 		mcrForSpy.assertMethodWasCalled(ADD_CALL);
+	}
+
+	@Test()
+	public void testSetInTrashBin() {
+		dataRecordGroup.MCR = MCRSpy;
+
+		dataRecordGroup.setInTrashBin(true);
+
+		mcrForSpy.assertParameter(ADD_CALL, 0, "inTrashBin", true);
 	}
 }
