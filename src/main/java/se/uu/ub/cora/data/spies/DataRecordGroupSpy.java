@@ -88,6 +88,7 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("overwriteProtectionShouldBeEnforced", () -> false);
 		MRV.setDefaultReturnValuesSupplier("getTsVisibility", Optional::empty);
 		MRV.setDefaultReturnValuesSupplier("getVisibility", Optional::empty);
+		MRV.setDefaultReturnValuesSupplier("isInTrashBin", Optional::empty);
 		MRV.setDefaultReturnValuesSupplier("getPermissionUnit", Optional::empty);
 	}
 
@@ -403,6 +404,17 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	@Override
 	public void setTsVisibilityNow() {
 		MCR.addCall();
+	}
+
+	@Override
+	public void setInTrashBin(boolean inTrashBin) {
+		MCR.addCall("inTrashBin", inTrashBin);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Optional<Boolean> isInTrashBin() {
+		return (Optional<Boolean>) MCR.addCallAndReturnFromMRV();
 	}
 
 	@SuppressWarnings("unchecked")
