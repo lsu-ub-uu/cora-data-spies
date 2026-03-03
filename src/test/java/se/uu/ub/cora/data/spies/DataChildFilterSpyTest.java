@@ -18,6 +18,7 @@
  */
 package se.uu.ub.cora.data.spies;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 
@@ -47,14 +48,14 @@ public class DataChildFilterSpyTest {
 	}
 
 	@Test
-	public void testMakeSureSpyHelpersAreSetUp() throws Exception {
+	public void testMakeSureSpyHelpersAreSetUp() {
 		assertTrue(dataChildFilterSpy.MCR instanceof MethodCallRecorder);
 		assertTrue(dataChildFilterSpy.MRV instanceof MethodReturnValues);
 		assertSame(dataChildFilterSpy.MCR.onlyForTestGetMRV(), dataChildFilterSpy.MRV);
 	}
 
 	@Test
-	public void testAddAttributeUsingNameInDataAndPossibleValues() throws Exception {
+	public void testAddAttributeUsingNameInDataAndPossibleValues() {
 		dataChildFilterSpy.MCR = MCRSpy;
 
 		Set<String> possibleValues = Set.of("value1", "value2");
@@ -66,24 +67,41 @@ public class DataChildFilterSpyTest {
 	}
 
 	@Test
-	public void testDefaultChildMatches() throws Exception {
+	public void testDefaultGetNameInData() {
+		assertEquals(dataChildFilterSpy.getNameInData(), "someNameInData");
+	}
+
+	@Test
+	public void testGetNameInData() {
+		dataChildFilterSpy.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
+				() -> "someOtherNameInData");
+
+		String returnedValue = dataChildFilterSpy.getNameInData();
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
+	}
+
+	@Test
+	public void testDefaultChildMatches() {
 		DataChildSpy child = new DataChildSpy();
 
 		assertTrue(dataChildFilterSpy.childMatches(child));
 	}
 
 	@Test
-	public void testChildMatches() throws Exception {
+	public void testChildMatches() {
 		DataChildSpy child = new DataChildSpy();
 		dataChildFilterSpy.MCR = MCRSpy;
 		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV,
 				(Supplier<Boolean>) () -> false);
 
-		boolean retunedValue = dataChildFilterSpy.childMatches(child);
+		boolean returnedValue = dataChildFilterSpy.childMatches(child);
 
 		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
 		mcrForSpy.assertParameter(ADD_CALL_AND_RETURN_FROM_MRV, 0, "child", child);
-		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, retunedValue);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, returnedValue);
 	}
 
 }

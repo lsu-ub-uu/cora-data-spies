@@ -19,7 +19,6 @@
 package se.uu.ub.cora.data.spies;
 
 import java.util.Set;
-import java.util.function.Supplier;
 
 import se.uu.ub.cora.data.DataChild;
 import se.uu.ub.cora.data.DataChildFilter;
@@ -33,7 +32,13 @@ public class DataChildFilterSpy implements DataChildFilter {
 
 	public DataChildFilterSpy() {
 		MCR.useMRV(MRV);
-		MRV.setDefaultReturnValuesSupplier("childMatches", (Supplier<Boolean>) () -> true);
+		MRV.setDefaultReturnValuesSupplier("getNameInData", () -> "someNameInData");
+		MRV.setDefaultReturnValuesSupplier("childMatches", () -> true);
+	}
+
+	@Override
+	public String getNameInData() {
+		return (String) MCR.addCallAndReturnFromMRV();
 	}
 
 	@Override
@@ -46,5 +51,4 @@ public class DataChildFilterSpy implements DataChildFilter {
 	public boolean childMatches(DataChild child) {
 		return (boolean) MCR.addCallAndReturnFromMRV("child", child);
 	}
-
 }
