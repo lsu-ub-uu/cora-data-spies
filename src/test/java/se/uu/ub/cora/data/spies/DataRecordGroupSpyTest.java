@@ -1,4 +1,5 @@
 /*
+ * Copyright 2026 Uppsala University Library
  * Copyright 2022, 2024 Olov McKie
  *
  * This file is part of Cora.
@@ -749,7 +750,6 @@ public class DataRecordGroupSpyTest {
 				Optional.empty());
 		GetOptional permissionUnit = new GetOptional(() -> dataRecordGroup.getPermissionUnit(),
 				Optional.empty());
-
 		return new GetOptional[][] { { visibility }, { tsVisibility }, { isInTrashBin },
 				{ permissionUnit } };
 	}
@@ -783,7 +783,6 @@ public class DataRecordGroupSpyTest {
 				"tsVisibility");
 		SetOptional permissionUnit = new SetOptional(
 				value -> dataRecordGroup.setPermissionUnit(value), "permissionUnit");
-
 		return new SetOptional[][] { { visibility }, { tsVisibility }, { permissionUnit } };
 	}
 
@@ -897,5 +896,33 @@ public class DataRecordGroupSpyTest {
 		dataRecordGroup.setInTrashBin(true);
 
 		mcrForSpy.assertParameter(ADD_CALL, 0, "inTrashBin", true);
+	}
+
+	@Test
+	public void testGetHostRecordDefault() {
+		var hostRecord = dataRecordGroup.getHostRecord();
+
+		assertEquals(Optional.empty(), hostRecord);
+	}
+
+	@Test
+	public void testGetHostRecord() {
+		dataRecordGroup.MCR = MCRSpy;
+		MCRSpy.MRV.setDefaultReturnValuesSupplier(ADD_CALL_AND_RETURN_FROM_MRV, Optional::empty);
+
+		var hostRecord = dataRecordGroup.getHostRecord();
+
+		mcrForSpy.assertMethodWasCalled(ADD_CALL_AND_RETURN_FROM_MRV);
+		mcrForSpy.assertReturn(ADD_CALL_AND_RETURN_FROM_MRV, 0, hostRecord);
+	}
+
+	@Test()
+	public void testSetHostRecord() {
+		dataRecordGroup.MCR = MCRSpy;
+
+		dataRecordGroup.setHostRecord("someLinkedRecordType", "someLinkeRecordId");
+
+		mcrForSpy.assertParameter(ADD_CALL, 0, "linkedRecordType", "someLinkedRecordType");
+		mcrForSpy.assertParameter(ADD_CALL, 0, "linkedRecordId", "someLinkeRecordId");
 	}
 }

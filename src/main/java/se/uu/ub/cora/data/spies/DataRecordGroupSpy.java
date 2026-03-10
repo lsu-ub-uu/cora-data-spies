@@ -1,4 +1,5 @@
 /*
+ * Copyright 2026 Uppsala University Library
  * Copyright 2022, 2024 Olov McKie
  *
  * This file is part of Cora.
@@ -30,6 +31,7 @@ import se.uu.ub.cora.data.DataChild;
 import se.uu.ub.cora.data.DataChildFilter;
 import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.data.DataRecordGroup;
+import se.uu.ub.cora.data.DataRecordLink;
 import se.uu.ub.cora.testutils.mcr.MethodCallRecorder;
 import se.uu.ub.cora.testutils.mrv.MethodReturnValues;
 
@@ -90,6 +92,7 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 		MRV.setDefaultReturnValuesSupplier("getVisibility", Optional::empty);
 		MRV.setDefaultReturnValuesSupplier("isInTrashBin", Optional::empty);
 		MRV.setDefaultReturnValuesSupplier("getPermissionUnit", Optional::empty);
+		MRV.setDefaultReturnValuesSupplier("getHostRecord", Optional::empty);
 	}
 
 	@Override
@@ -426,5 +429,16 @@ public class DataRecordGroupSpy implements DataRecordGroup {
 	@Override
 	public void setPermissionUnit(String permissionUnit) {
 		MCR.addCall("permissionUnit", permissionUnit);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Optional<DataRecordLink> getHostRecord() {
+		return (Optional<DataRecordLink>) MCR.addCallAndReturnFromMRV();
+	}
+
+	@Override
+	public void setHostRecord(String linkedRecordType, String linkedRecordId) {
+		MCR.addCall("linkedRecordType", linkedRecordType, "linkedRecordId", linkedRecordId);
 	}
 }
